@@ -17,8 +17,7 @@ Uses the wonderful [React Apollo Starter Kit](https://github.com/saikat/react-ap
 * [Babel](https://babeljs.io/) to use the latest Javascript language features
 
 ## Development
-1. Install [Cassandra](http://cassandra.apache.org/download/)
-1. Install [Node.js](https://nodejs.org/)
+1. Have [Node](https://nodejs.org/) && [ArangoDB](https://www.arangodb.com/download) installed locally.
 1. `npm install`
 1. `npm run dev`
 1. Navigate to `http://localhost:3000` to see your app in action.
