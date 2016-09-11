@@ -2,6 +2,7 @@ import 'babel-polyfill';
 import bodyParser from 'body-parser';
 import express from 'express';
 import { apolloExpress, graphiqlExpress } from 'apollo-server';
+import { makeExecutableSchema } from 'graphql-tools';
 import renderApp from './renderApp';
 
 const app = express();
@@ -15,6 +16,10 @@ if (process.env.NODE_ENV === 'production') {
     maxAge: '180 days'
   }));
 }
+
+const executeableSchema = makeExecutableSchema({
+  allowUndefinedInResolve: false
+});
 
 app.use('/graphql', bodyParser.json(), apolloExpress(({
   allowUndefinedInResolve: false,
