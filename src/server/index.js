@@ -1,9 +1,13 @@
 import 'babel-polyfill';
 import bodyParser from 'body-parser';
 import express from 'express';
-import { apolloExpress, graphiqlExpress } from 'apollo-server';
-import { makeExecutableSchema } from 'graphql-tools';
+import DataLoader from 'dataloader';
+import graphqlHTTP from 'express-graphql';
+
+import adb from './arangodb';
 import renderApp from './renderApp';
+import schema from './schema';
+import rawLoaders from './loaders';
 
 const app = express();
 const port = process.env.DEV_APP_PORT || process.env.PORT;
@@ -17,18 +21,19 @@ if (process.env.NODE_ENV === 'production') {
   }));
 }
 
-const executeableSchema = makeExecutableSchema({
-  allowUndefinedInResolve: false
+const users = rawLoaders.userLoader(adb);
+app.use('/graphql', bodyParser.json(), (req, res) => {
+  const loaders = {
+    usersByIds: new DataLoader(users.getUsersByIds)
+  };
+
+  graphqlHTTP(({
+    schema,
+    graphiql: true,
+    context: { loaders }
+  }))(req, res);
 });
 
-app.use('/graphql', bodyParser.json(), apolloExpress(({
-  allowUndefinedInResolve: false,
-  context: {}
-})));
-
-app.use('/graphiql', bodyParser.json(), graphiqlExpress({
-  endpointUrl: '/graphql'
-}));
 // This middleware should be last. Return the React app only if no other route is hit.
 app.use(renderApp);
 app.listen(port, () => {
