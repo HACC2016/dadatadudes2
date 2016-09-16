@@ -1,7 +1,6 @@
-import { aql } from 'arangojs';
 import _ from 'lodash';
 
-export default function userLoader(adb) {
+export default function mdbConstructor(mPool) {
   const orderedFor = (vals, collection, field, single = true) => {
     const inGroupsOfField = _.groupBy(vals, field);
 
@@ -16,14 +15,13 @@ export default function userLoader(adb) {
   };
 
   return {
-    getUsersByIds(userIds) {
-      return adb.query(aql`
-        FOR user IN users
-        FILTER ${userIds} ANY == user._key
-        RETURN user
-      `)
-      .then(cursor => cursor.all())
-      .then(vals => orderedFor(vals, userIds, '_key'));
+    getUsersByEmails(emails) {
+      return mPool.collection('users')
+        .find({ email: { $in: emails } })
+        .toArray()
+        .then(rows =>
+          orderedFor(rows, emails, 'email')
+        );
     }
   };
 }

@@ -3,39 +3,45 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import DataLoader from 'dataloader';
 import graphqlHTTP from 'express-graphql';
+import assert from 'assert';
+import { MongoClient } from 'mongodb';
 
-import adb from './arangodb';
+import mdbConstructor from './mongodb';
 import renderApp from './renderApp';
 import schema from './schema';
-import rawLoaders from './loaders';
 
+const DEBUG = process.env.NODE_ENV !== 'production';
 const app = express();
 const port = process.env.DEV_APP_PORT || process.env.PORT;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-if (process.env.NODE_ENV === 'production') {
+if (!DEBUG) {
   app.use(express.static(process.env.PUBLIC_DIR, {
     maxAge: '180 days'
   }));
 }
 
-const users = rawLoaders.userLoader(adb);
-app.use('/graphql', bodyParser.json(), (req, res) => {
-  const loaders = {
-    usersByIds: new DataLoader(users.getUsersByIds)
-  };
+MongoClient.connect(process.env.MONGO_URL, (err, mPool) => {
+  assert.equal(err, null);
+  const mdb = mdbConstructor(mPool);
 
-  graphqlHTTP(({
-    schema,
-    graphiql: true,
-    context: { loaders }
-  }))(req, res);
-});
+  app.use('/graphql', bodyParser.json(), (req, res) => {
+    const loaders = {
+      usersByEmails: new DataLoader(mdb.getUsersByEmails)
+    };
 
-// This middleware should be last. Return the React app only if no other route is hit.
-app.use(renderApp);
-app.listen(port, () => {
-  console.log(`Node app is running on port ${port}`);
+    graphqlHTTP(({
+      schema,
+      graphiql: true,
+      context: { loaders }
+    }))(req, res);
+  });
+  // This middleware should be last. Return the React app only if no other route is hit.
+  app.use(renderApp);
+  app.listen(port, () => {
+    console.log(`Node app is running on port ${port}`);
+  });
+
 });

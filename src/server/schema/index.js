@@ -15,10 +15,10 @@ const QueryType = new GraphQLObjectType({
       type: UserType,
       description: 'The user identified by a unique id.',
       args: {
-        id: { type: new GraphQLNonNull(GraphQLString) }
+        email: { type: new GraphQLNonNull(GraphQLString) }
       },
       resolve(obj, args, { loaders }) {
-        return loaders.usersByIds.load(args.id);
+        return loaders.usersByEmails.load(args.email);
       }
     }
   }
