@@ -6,6 +6,7 @@ import {
 } from 'graphql';
 
 import UserType from './types/user';
+import DistrictType from './types/districts';
 
 const QueryType = new GraphQLObjectType({
   name: 'QueryType',
@@ -19,6 +20,17 @@ const QueryType = new GraphQLObjectType({
       },
       resolve(obj, args, { loaders }) {
         return loaders.usersByEmails.load(args.email);
+      }
+    },
+
+    district: {
+      type: DistrictType,
+      description: 'The city council district, and associated council member.',
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve(obj, args, { loaders }) {
+        return loaders.districtsByIds.load(args.id);
       }
     }
   }

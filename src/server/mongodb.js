@@ -22,6 +22,15 @@ export default function mdbConstructor(mPool) {
         .then(rows =>
           orderedFor(rows, emails, 'email')
         );
+    },
+
+    getDistrictsByIds(districtIds) {
+      return mPool.collection('districts')
+        .find({ districtId: { $in: districtIds } })
+        .toArray()
+        .then(rows =>
+          orderedFor(rows, districtIds, 'districtId')
+        );
     }
   };
 }
