@@ -37,7 +37,13 @@ MongoClient.connect(process.env.MONGO_URL, (err, mPool) => {
     graphqlHTTP(({
       schema,
       graphiql: true,
-      context: { loaders }
+      pretty: true,
+      context: { loaders },
+      formatError: error => ({
+        message: error.message,
+        locations: error.locations,
+        stack: error.stack
+      })
     }))(req, res);
   });
   // This middleware should be last. Return the React app only if no other route is hit.
