@@ -7,19 +7,20 @@ import {
 
 import UserType from './types/user';
 import DistrictType from './types/districts';
+import ReportType from './types/reports';
 
 const QueryType = new GraphQLObjectType({
   name: 'QueryType',
 
-  fields: {
+  fields: () => ({
     user: {
       type: UserType,
       description: 'The user identified by a unique id.',
       args: {
         email: { type: new GraphQLNonNull(GraphQLString) }
       },
-      resolve(obj, args, { loaders }) {
-        return loaders.usersByEmails.load(args.email);
+      async resolve(obj, args, { loaders }) {
+        return await loaders.usersByEmails.load(args.email);
       }
     },
 
@@ -29,11 +30,22 @@ const QueryType = new GraphQLObjectType({
       args: {
         id: { type: new GraphQLNonNull(GraphQLString) }
       },
-      resolve(obj, args, { loaders }) {
-        return loaders.districtsByIds.load(args.id);
+      async resolve(obj, args, { loaders }) {
+        return await loaders.districtsByIds.load(args.id);
+      }
+    },
+
+    report: {
+      type: ReportType,
+      description: 'Reported sightings or counts of homeless persons.',
+      args: {
+        districtId: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      async resolve(obj, args, { loaders }) {
+        return await loaders.reportsByDistrictIds.load(args.districtId);
       }
     }
-  }
+  })
 });
 
 const Schema = new GraphQLSchema({
