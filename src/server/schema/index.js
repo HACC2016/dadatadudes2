@@ -2,6 +2,7 @@ import {
   GraphQLString,
   GraphQLSchema,
   GraphQLNonNull,
+  GraphQLList,
   GraphQLObjectType
 } from 'graphql';
 
@@ -19,9 +20,9 @@ const QueryType = new GraphQLObjectType({
       args: {
         email: { type: new GraphQLNonNull(GraphQLString) }
       },
-      async resolve(obj, args, { loaders }) {
-        return await loaders.usersByEmails.load(args.email);
-      }
+      resolve: (obj, args, { loaders }) => (
+        loaders.usersByEmails.load(args.email)
+      )
     },
 
     district: {
@@ -30,20 +31,20 @@ const QueryType = new GraphQLObjectType({
       args: {
         id: { type: new GraphQLNonNull(GraphQLString) }
       },
-      async resolve(obj, args, { loaders }) {
-        return await loaders.districtsByIds.load(args.id);
-      }
+      resolve: (obj, args, { loaders }) => (
+        loaders.districtsByIds.load(args.id)
+      )
     },
 
-    report: {
-      type: ReportType,
+    reports: {
+      type: new GraphQLList(ReportType),
       description: 'Reported sightings or counts of homeless persons.',
       args: {
         districtId: { type: new GraphQLNonNull(GraphQLString) }
       },
-      async resolve(obj, args, { loaders }) {
-        return await loaders.reportsByDistrictIds.load(args.districtId);
-      }
+      resolve: (obj, args, { loaders }) => (
+        loaders.reportsByDistrictIds.load(args.districtId)
+      )
     }
   })
 });

@@ -1,16 +1,15 @@
 import _ from 'lodash';
 
 export default function mdbConstructor(mPool) {
-  const orderedFor = (vals, collection, field, single = true) => {
-    const inGroupsOfField = _.groupBy(vals, field);
-
+  const orderedFor = (rows, collection, field, singleObject) => {
+    // return the rows ordered for the collection
+    const inGroupsOfField = _.groupBy(rows, field);
     return collection.map(element => {
       const elementArray = inGroupsOfField[element];
       if (elementArray) {
-        return single ? elementArray[0] : elementArray;
+        return singleObject ? elementArray[0] : elementArray;
       }
-
-      return single ? {} : [];
+      return singleObject ? {} : [];
     });
   };
 
@@ -20,7 +19,7 @@ export default function mdbConstructor(mPool) {
         .find({ email: { $in: emails } })
         .toArray()
         .then(rows =>
-          orderedFor(rows, emails, 'email')
+          orderedFor(rows, emails, 'email', true)
         );
     },
 
@@ -29,7 +28,7 @@ export default function mdbConstructor(mPool) {
         .find({ districtId: { $in: districtIds } })
         .toArray()
         .then(rows =>
-          orderedFor(rows, districtIds, 'districtId')
+          orderedFor(rows, districtIds, 'districtId', true)
         );
     },
 
