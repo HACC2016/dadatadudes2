@@ -52,6 +52,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.14.0",
     "body-parser": "^1.15.2",
+    "casual": "^1.5.5",
     "co": "^4.6.0",
     "dataloader": "^1.2.0",
     "express": "^4.14.0",
