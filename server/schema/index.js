@@ -10,6 +10,7 @@ import UserType from './types/user';
 import DistrictType from './types/districts';
 import ReportType from './types/reports';
 import PersonType from './types/persons';
+import AssessmentType from './types/assessments';
 
 const QueryType = new GraphQLObjectType({
   name: 'QueryType',
@@ -56,6 +57,17 @@ const QueryType = new GraphQLObjectType({
       },
       resolve: (obj, args, { loaders }) => (
         loaders.personsByDistrictIds.load(args.districtId)
+      )
+    },
+
+    assessments: {
+      type: new GraphQLList(AssessmentType),
+      description: 'Assessment description of a homeless individual',
+      args: {
+        personId: { type: GraphQLString }
+      },
+      resolve: (obj, args, { loaders }) => (
+        loaders.assessmentsByPersonIds.load(args.personId)
       )
     }
   })
