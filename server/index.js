@@ -35,13 +35,20 @@ MongoClient.connect(process.env.MONGO_URL, (err, mPool) => {
   app.use('/graphql', bodyParser.json(), (req, res) => {
     const loaders = {
       usersByEmails: new DataLoader(mdb.getUsersByEmails),
-      districtsByIds: new DataLoader(mdb.getDistrictsByIds)
+      districtsByIds: new DataLoader(mdb.getDistrictsByIds),
+      reportsByDistrictIds: new DataLoader(mdb.getReportsByDistrictIds)
     };
 
     graphqlHTTP(({
       schema,
       graphiql: true,
-      context: { loaders }
+      pretty: true,
+      context: { loaders },
+      formatError: error => ({
+        message: error.message,
+        locations: error.locations,
+        stack: error.stack
+      })
     }))(req, res);
   });
   
