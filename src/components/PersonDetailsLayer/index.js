@@ -14,10 +14,25 @@ import DocumentIcon from 'grommet/components/icons/base/Document';
 import RiskIcon from 'grommet/components/icons/base/Risk';
 import GroupIcon from 'grommet/components/icons/base/Group';
 
-const PersonDetailsLayer = ({onClose, riskScore}) => {
+const PersonDetailsLayer = ({
+  onClose, 
+  personDetails: {
+    firstName,
+    lastName,
+    assessments
+  }
+}) => {
+  const { 
+    overallRiskScore,
+    historyOfHousingAndHomelessnessScore,
+    preSurveyScore,
+    risksScore,
+    socializingAndDailyFunctionsScore,
+    wellnessScore,
+  } = assessments[0];
   return (
     <LayerForm
-      title="Person Details"
+      title={`${firstName} ${lastName}`}
       compact={false}
       submitLabel="Ok"
       onSubmit={onClose}
@@ -29,7 +44,7 @@ const PersonDetailsLayer = ({onClose, riskScore}) => {
           max={17} 
           min={0} 
           type="arc" 
-          value={11}
+          value={overallRiskScore}
           thresholds={[
             {value: 5, label: 'Ok', colorIndex: 'ok'},
             {value: 10, label: 'Warning', colorIndex: 'warning'},
@@ -39,16 +54,31 @@ const PersonDetailsLayer = ({onClose, riskScore}) => {
       <Box
         direction="row" 
         justify="between">
-        <Value label="Pre-Survey" value={1} icon={<DocumentIcon />} />
-        <Value label="History" value={2} icon={<HistoryIcon />} />
+        <Value 
+          label="Pre-Survey" 
+          value={preSurveyScore} 
+          icon={<DocumentIcon />} />
+        <Value 
+          label="History" 
+          value={historyOfHousingAndHomelessnessScore} 
+          icon={<HistoryIcon />} />
       </Box>
 
       <Box 
         direction="row" 
         justify="between">
-        <Value label="Risks" value={2} icon={<RiskIcon />} />
-        <Value label="Social & Daily" value={3} icon={<GroupIcon />} />
-        <Value label="Wellness" value={3} icon={<TaskIcon />} />
+        <Value 
+          label="Risks" 
+          value={risksScore} 
+          icon={<RiskIcon />} />
+        <Value 
+          label="Social & Daily" 
+          value={socializingAndDailyFunctionsScore} 
+          icon={<GroupIcon />} />
+        <Value 
+          label="Wellness" 
+          value={wellnessScore} 
+          icon={<TaskIcon />} />
       </Box>
 
     </LayerForm>

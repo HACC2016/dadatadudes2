@@ -15,7 +15,7 @@ class PopulationBoard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showDetails: true,
+      showDetails: false,
       filter: { assessmentId: [] },
       sort: 'lastName:asc',
       query: '',
@@ -32,11 +32,12 @@ class PopulationBoard extends Component {
     this._onSort          = this._onSort.bind(this);
     this._onSearch        = this._onSearch.bind(this);
     this._closeLayer      = this._closeLayer.bind(this);
+    this._openLayer       = this._openLayer.bind(this);
+    this._findPerson      = this._findPerson.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.response) {
-      console.log(nextProps.response.persons, 'persons');
       this.setState({
         result: {
           items: nextProps.response.persons,
@@ -96,9 +97,29 @@ class PopulationBoard extends Component {
     this.setState({showDetails: false});
   }
 
+  _openLayer(id) {
+    this.setState({
+      showDetails: true,
+      id: id,
+    });
+  }
+
+  _findPerson(id) {
+    const { 
+      response: { persons },
+    } = this.props;
+    return persons.find(({_id}) => _id === this.state.id);
+  }
+
   render() {
-    // TODO: Remove this 
+    // TODO: Remove this
     const riskScore = 6;
+    const data = {
+      ...this.state.result,
+      items: this.state.result.items.map((person) => {
+        return {...person, openLayer: this._openLayer};
+      })
+    };
     return (
       <Article>
         <Index 
@@ -110,7 +131,7 @@ class PopulationBoard extends Component {
           onQuery={this._onSearch}
           itemComponent={PersonRecord}
           attributes={attributes}
-          data={this.state.result}
+          data={data}
           filter={this.state.filter}
           sort={this.state.sort}
           onMore={() => {}}
@@ -119,8 +140,8 @@ class PopulationBoard extends Component {
           emptyAddControl={<noscript/>}/>
         {this.state.showDetails && 
           <PersonDetailsLayer 
-            onClose={this._closeLayer}
-            riskScore={riskScore} />
+            personDetails={this._findPerson()}
+            onClose={this._closeLayer} />
         }
       </Article>
     );
@@ -131,9 +152,20 @@ const personsQuery =
   gql`
   query {
     persons {
+      _id
       firstName
       lastName
       assessmentIds
+      assessments {
+        _id
+        personId
+        overallRiskScore
+        preSurveyScore
+        historyOfHousingAndHomelessnessScore
+        risksScore
+        socializingAndDailyFunctionsScore
+        wellnessScore
+      }
     }
   } `;
 
