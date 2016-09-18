@@ -11,6 +11,10 @@ import Anchor from 'grommet/components/Anchor';
 import Chart from 'grommet/components/Chart';
 import Base from 'grommet/components/Chart/Base';
 import Bar from 'grommet/components/Chart/Bar';
+import Button from 'grommet/components/Button';
+import AnalyticsIcon from 'grommet/components/icons/base/Analytics';
+import ResourcesIcon from 'grommet/components/icons/base/Resources';
+
 
 class RiskScore extends Component {
   constructor(props) {
@@ -23,7 +27,7 @@ class RiskScore extends Component {
 
   render() {
     return (
-      <Article pad={{vertical: 'small'}}>
+      <Article direction="column" justify="start">
         <Heading align="center" tag="h4">Islands</Heading>
         <Box 
           align="center" 
@@ -34,6 +38,21 @@ class RiskScore extends Component {
             <Anchor>Hawaii</Anchor>
             <Anchor>Kauai</Anchor>
           </Menu>
+        </Box>
+        <Box 
+          justify="between" 
+          direction="row"
+          pad={{horizontal: 'large'}}>
+          <Button 
+            accent={true}
+            onClick={() => {}}
+            label="Number of Homeless" 
+            icon={<ResourcesIcon />} />
+          <Button 
+            accent={true}
+            onClick={() => {}}
+            label="Risk Score Percentage" 
+            icon={<AnalyticsIcon />} />
         </Box>
       </Article>
     );
