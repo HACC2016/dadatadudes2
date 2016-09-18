@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { ObjectID } from 'mongodb';
 
 export default function mdbConstructor(mPool) {
   const orderedFor = (rows, collection, field, singleObject) => {
@@ -12,6 +13,10 @@ export default function mdbConstructor(mPool) {
       return singleObject ? {} : [];
     });
   };
+
+  const mapIdsToObjectIDs = (ids) => (
+    ids.map(id => new ObjectID(id))
+  );
 
   return {
     getUsersByEmails(emails) {
@@ -41,12 +46,32 @@ export default function mdbConstructor(mPool) {
         );
     },
 
-    getPersonsByReportIds(reportIds) {
+    getPersonsByDistrictIds(districtIds) {
       return mPool.collection('persons')
-        .find({ reportIds: { $elemMatch: { $in: reportIds } } })
+        .find({ districtId: { $in: districtIds } })
         .toArray()
         .then(rows =>
-          orderedFor(rows, reportIds, 'reportIds', false)
+          orderedFor(rows, districtIds, 'districtId', false)
+        );
+    },
+
+    getPersonsByReportIds(reportIds) {
+      const reportObjectIds = mapIdsToObjectIDs(reportIds);
+      return mPool.collection('persons')
+        .find({ reportIds: { $elemMatch: { $in: reportObjectIds } } })
+        .toArray()
+        .then(rows =>
+          orderedFor(rows, reportObjectIds, 'reportIds', true)
+        );
+    },
+
+    getAssessmentsByPersonIds(personIds) {
+      const personObjectIds = mapIdsToObjectIDs(personIds);
+      return mPool.collection('assessments')
+        .find({ personId: { $in: personIds } })
+        .toArray()
+        .then(rows =>
+          orderedFor(rows, personObjectIds, 'personId', false)
         );
     }
   };

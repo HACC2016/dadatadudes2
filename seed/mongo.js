@@ -13,11 +13,13 @@ const seeder = require('./random-seeder');
       const districts = db.collection('districts');
       const reports = db.collection('reports');
       const persons = db.collection('persons');
+      const assessments = db.collection('assessments');
 
       yield users.remove({});
       yield districts.remove({});
       yield reports.remove({});
       yield persons.remove({});
+      yield assessments.remove({});
 
       db.close();
     } catch (err) {
@@ -32,6 +34,7 @@ const seeder = require('./random-seeder');
       const districts = db.collection('districts');
       const reports = db.collection('reports');
       const persons = db.collection('persons');
+      const assessments = db.collection('assessments');
 
       const userInsert = yield users.insert({
         email: 'testing.email@email.com',
@@ -41,13 +44,23 @@ const seeder = require('./random-seeder');
       assert.equal(1, userInsert.insertedCount);
 
       const districtInsert = yield districts.insertMany(councilDistricts);
-      assert.equal(9, districtInsert.insertedCount);
+      assert.equal(28, districtInsert.insertedCount);
 
-      const reportInsert = yield reports.insertMany(seeder.generateReports(20));
-      assert.equal(20, reportInsert.insertedCount);
+      const reportInsert = yield reports.insertMany(seeder.generateReports(150));
+      assert.equal(150, reportInsert.insertedCount);
 
-      const personInsert = yield persons.insertMany(seeder.generatePersons(10, reportInsert.insertedIds));
-      assert.equal(10, personInsert.insertedCount);
+      const personInsert = yield persons.insertMany(seeder.generatePersons(60, reportInsert.insertedIds));
+      assert.equal(60, personInsert.insertedCount);
+
+      const assessmentObjects = seeder.generateAssessments(35, personInsert.ops);
+      const assessmentInsert = yield assessments.insertMany(assessmentObjects);
+      assert.equal(35, assessmentInsert.insertedCount);
+
+      yield assessmentObjects.map(assessment => {
+        const personUpdate = persons.updateOne({ _id: assessment.personId }, {
+          $set: { assessmentIds: [assessment._id] }
+        });
+      });
 
       db.close();
     } catch (err) {

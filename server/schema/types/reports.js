@@ -3,6 +3,7 @@ import {
   GraphQLID,
   GraphQLObjectType
 } from 'graphql';
+import PersonType from './persons';
 
 const ReportType = new GraphQLObjectType({
   name: 'ReportType',
@@ -10,7 +11,13 @@ const ReportType = new GraphQLObjectType({
   fields: () => ({
     _id: { type: GraphQLID },
     districtId: { type: GraphQLString },
-    reportedAt: { type: GraphQLString }
+    reportedAt: { type: GraphQLString },
+    person: {
+      type: PersonType,
+      resolve: ({ _id }, args, { loaders }) => (
+        loaders.personsByReportIds.load(_id)
+      )
+    }
   })
 });
 
