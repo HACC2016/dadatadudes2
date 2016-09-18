@@ -1,13 +1,13 @@
 'use strict';
 
-var path = require('path');
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   devtool: 'eval-source-map',
   entry: {
-    bundle: ['babel-polyfill', './src/client/index.js']
+    bundle: ['babel-polyfill', 'webpack-hot-middleware/client?reload=true', './src/client/index.js']
   },
   output: {
     path: path.join(__dirname, '/dist/'),
@@ -17,7 +17,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: 'src/index.html',
-      inject: 'body',
+      inject: 'body'
     }),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
@@ -30,7 +30,7 @@ module.exports = {
     loaders: [{
       test: /\.jsx?$/,
       exclude: /node_modules/,
-      loader: 'babel' 
+      loader: 'babel'
     }, {
       test: /\.json?$/,
       loader: 'json'
