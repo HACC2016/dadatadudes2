@@ -29,6 +29,7 @@ const seeder = require('./random-seeder');
       const users = db.collection('users');
       const districts = db.collection('districts');
       const reports = db.collection('reports');
+      const persons = db.collection('persons');
 
       const userInsert = yield users.insert({
         email: 'testing.email@email.com',
@@ -42,6 +43,9 @@ const seeder = require('./random-seeder');
 
       const reportInsert = yield reports.insertMany(seeder.generateReports(20));
       assert.equal(20, reportInsert.insertedCount);
+
+      const personInsert = yield persons.insertMany(seeder.generatePersons(10, reportInsert.insertedIds));
+      assert.equal(10, personInsert.insertedCount);
 
       db.close();
     } catch (err) {
