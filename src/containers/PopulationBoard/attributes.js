@@ -1,25 +1,22 @@
 export default [{
-  label: 'Status',
-  name: 'status',
+  label: 'Asssessment',
+  name: 'assessmentId',
   filter: {
-    all: true,
     values: [{
-      label: 'Critical',
-      value: 'critical'
-    },{
-      label: 'Warning',
-      value: 'warning'
-    },{
-      label: 'OK',
-      value: 'ok'
-    }, {
-      label: 'Disabled',
-      value: 'disabled'
-    },
-    {
-      label: 'Unknown',
-      value: 'unknown'
+      label: 'Assessment',
+      value: ''
     }]
+  }
+},{
+  label: 'Last Name',
+  name: 'lastName',
+  sort: {
+    direction: 'asc'
   },
-  status: true
+}, {
+  label: 'First Name',
+  name: 'firstName',
+  sort: {
+    direction: 'asc'
+  }
 }];

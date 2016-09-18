@@ -9,8 +9,9 @@ import Box from 'grommet/components/Box';
 const PersonRecord = ({
   index,
   item: {
-    name,
-    status
+    firstName,
+    lastName,
+    assessmentId
   }
 }) =>
   <ListItem
@@ -19,7 +20,7 @@ const PersonRecord = ({
     align="start"
     justify="between"
     separator="horizontal"
-    onClick={() => browserHistory.push(`/risk-score/${age}`)}
+    onClick={() => browserHistory.push(`/risk-score/${assessmentId}`)}
     pad={{
       horizontal: 'large',
       vertical: 'medium',
@@ -29,9 +30,9 @@ const PersonRecord = ({
     <Box
       direction="row"
       pad={{between: 'small'}}>
-      <StatusIcon value={status} />
+      <StatusIcon value={assessmentId.length ? 'ok' : 'critical'} />
       <Box tag="span" pad={{horizontal: 'medium'}}>
-        {name}
+        {`${firstName} ${lastName}`}
       </Box>
     </Box>
 
