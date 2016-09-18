@@ -12,6 +12,8 @@ import ReportType from './types/reports';
 import PersonType from './types/persons';
 import AssessmentType from './types/assessments';
 
+import AddReportMutation from './mutations/reports';
+
 const QueryType = new GraphQLObjectType({
   name: 'QueryType',
 
@@ -80,8 +82,17 @@ const QueryType = new GraphQLObjectType({
   })
 });
 
+const MutationType = new GraphQLObjectType({
+  name: 'MutationType',
+
+  fields: () => ({
+    AddReport: AddReportMutation
+  })
+});
+
 const Schema = new GraphQLSchema({
-  query: QueryType
+  query: QueryType,
+  mutation: MutationType
 });
 
 export default Schema;
