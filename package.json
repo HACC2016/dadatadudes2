@@ -65,6 +65,7 @@
     "graphql-tag": "^0.1.13",
     "graphql-tools": "^0.6.6",
     "grommet": "^0.6.11",
+    "grommet-toolbox": "^0.4.2",
     "json-loader": "^0.5.4",
     "lodash": "^4.15.0",
     "mongodb": "^2.2.10",

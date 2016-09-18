@@ -1,13 +1,15 @@
 import React from 'react';
-import { Route, IndexRedirect } from 'react-router';
-import Dashboard from './containers/Dashboard';
+import { Route, Redirect } from 'react-router';
 import Main from './containers/Main';
+import Login from './containers/Login';
+import PopulationBoard from './containers/PopulationBoard';
 
 export default (
-  <Route path="/">
-  	<Route component={Main}>
-      <IndexRedirect to="/dashboard" />
-      <Route path="dashboard" component={Dashboard} />
+  <Route>
+    <Redirect from="/" to="dashboard" />
+    <Route path="/" component={Main}>
+      <Route path="login" component={Login} />  		
+      <Route path="dashboard" component={PopulationBoard} />
     </Route>
   </Route>
 );
