@@ -23,8 +23,18 @@ class RiskScore extends Component {
     this.state = {
       
     };
+    this._selectIsland   = this._selectIsland.bind(this);
+    this._selectCategory = this._selectCategory.bind(this);
   }
 
+  _selectIsland() {
+
+  }
+
+  _selectCategory() {
+
+  }
+  
   render() {
     return (
       <Article direction="column" justify="start">
