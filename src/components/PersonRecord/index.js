@@ -22,7 +22,7 @@ const PersonRecord = ({
     align="start"
     justify="between"
     separator="horizontal"
-    onClick={() => openLayer(_id)}
+    onClick={() => openLayer(_id, assessmentIds)}
     pad={{
       horizontal: 'large',
       vertical: 'medium',

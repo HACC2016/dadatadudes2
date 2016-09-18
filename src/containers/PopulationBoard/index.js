@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 
 import Index from 'grommet-index/components/Index';
 import Article from 'grommet/components/Article';
+import Notification from 'grommet/components/Notification';
 
 import attributes from './attributes';
 
@@ -94,10 +95,16 @@ class PopulationBoard extends Component {
   }
 
   _closeLayer() {
-    this.setState({showDetails: false});
+    this.setState({
+      showDetails: false,
+      notification: false,
+    });
   }
 
-  _openLayer(id) {
+  _openLayer(id, assessmentIds) {
+    if (!assessmentIds) {
+      return this.setState({notification: true});
+    }
     this.setState({
       showDetails: true,
       id: id,
@@ -122,6 +129,14 @@ class PopulationBoard extends Component {
     };
     return (
       <Article>
+        {this.state.notification &&
+          <Notification 
+            message="No Assessment Exists for this Person"
+            closer={true}
+            onClose={this._closeLayer}
+            status="warning"
+          />
+        }
         <Index 
           view={{medium: 'list', small: 'tiles'}}
           fill={false}
