@@ -1,0 +1,51 @@
+// (C) Copyright 2016 Hewlett Packard Enterprise Development LP
+import React, { PropTypes } from 'react';
+import { Link, browserHistory } from 'react-router';
+
+import CloseIcon from 'grommet/components/icons/base/Close';
+
+import Sidebar from 'grommet/components/Sidebar';
+import Button from 'grommet/components/Button';
+import Header from 'grommet/components/Header';
+import Menu from 'grommet/components/Menu';
+import Box from 'grommet/components/Box';
+
+export const SidebarNav = ({routes}) =>
+  <Sidebar
+    full={true}
+    className="dashboard-sidebar"
+    colorIndex="neutral-1">
+    <Box justify="between" direction="column" full={true}>
+      <Box direction="column">
+        <Header
+          justify="between"
+          pad="medium">
+
+        </Header>
+
+        <Menu
+          pad={{vertical: 'small'}}
+          align="start"
+          direction="column"
+          justify="between"
+          primary={true}>
+
+          {routes.map((route, i) =>
+          <Link
+            key={i}
+            className="link grommetux-anchor"
+            to={route.route}
+            activeClassName="active">
+            {route.label}
+          </Link>
+          )}
+        </Menu>
+        <Box pad="medium">
+          <Button label="Logout" onClick={() => browserHistory.push('/login')}/>
+        </Box>
+      </Box>
+
+    </Box>
+  </Sidebar>;
+
+export default SidebarNav;

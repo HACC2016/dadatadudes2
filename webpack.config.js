@@ -32,6 +32,9 @@ module.exports = {
       exclude: /node_modules/,
       loader: 'babel'
     }, {
+      test: /\.svg$/,
+      loader: 'babel!react-svg'
+    }, {
       test: /\.json?$/,
       loader: 'json'
     }, {
@@ -56,6 +59,6 @@ module.exports = {
     contentBase: './dist'
   },
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx', '.svg']
   }
 };
