@@ -17,7 +17,7 @@ import GroupIcon from 'grommet/components/icons/base/Group';
 const PersonDetailsLayer = ({onClose, riskScore}) => {
   return (
     <LayerForm
-      title="Details"
+      title="Person Details"
       compact={false}
       submitLabel="Ok"
       onSubmit={onClose}

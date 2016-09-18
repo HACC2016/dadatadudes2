@@ -1,6 +1,6 @@
 export default [{
   label: 'Asssessment',
-  name: 'assessmentId',
+  name: 'assessmentIds',
   filter: {
     values: [{
       label: 'Assessment',

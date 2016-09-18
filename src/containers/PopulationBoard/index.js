@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { populationBoard as actions } from './module';
-import { connect } from 'react-redux';
-import gql from 'graphql-tag'
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import Index from 'grommet-index/components/Index';
 import Article from 'grommet/components/Article';
@@ -21,49 +20,12 @@ class PopulationBoard extends Component {
       sort: 'lastName:asc',
       query: '',
       result: {
-        items: [
-         {firstName: 'Brock', lastName: 'Lanoza',  assessmentId: [] },
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Bob',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: []},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: []},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: []},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: []},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-        ],
+        items: [],
         start: 0,
         count: 2,
         total: 2,
         unfilteredTotal: 2
       },
-      data: {
-        items: [
-         {firstName: 'Brock', lastName: 'Lanoza',  assessmentId: [] },
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Bob',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: []},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: []},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: []},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: []},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-        ],
-        start: 0,
-        count: 2,
-        total: 2,
-        unfilteredTotal: 2
-      }
     };
     this._handleFiltering = this._handleFiltering.bind(this);
     this._onFilter        = this._onFilter.bind(this);
@@ -72,15 +34,37 @@ class PopulationBoard extends Component {
     this._closeLayer      = this._closeLayer.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.response) {
+      console.log(nextProps.response.persons, 'persons');
+      this.setState({
+        result: {
+          items: nextProps.response.persons,
+          start: 0,
+          count: nextProps.response.persons.length,
+          total: nextProps.response.persons.length,
+          unfilteredTotal: nextProps.response.persons.length,
+        },
+        personsList: {
+          items: nextProps.response.persons,
+          start: 0,
+          count: nextProps.response.persons.length,
+          total: nextProps.response.persons.length,
+          unfilteredTotal: nextProps.response.persons.length,
+        }
+      });
+    }
+  }
+
   _handleFiltering() {
-    const { filter, sort, query, data } = this.state;
-    const filtered = data.items.filter(person => {
+    const { filter, sort, query, personsList } = this.state;
+    const filtered = personsList.items.filter(person => {
       const matchesSearch = person.lastName.toLowerCase().includes(query.toLowerCase());
       let matchesFilter;
-      if (filter.assessmentId[0] === 'yes') {
-        matchesFilter = person.assessmentId.length > 0;
-      } else if (filter.assessmentId[0] === 'no') {
-        matchesFilter = person.assessmentId.length === 0;
+      if (filter.assessmentIds[0] === 'yes') {
+        matchesFilter = Array.isArray(person.assessmentIds);
+      } else if (filter.assessmentIds[0] === 'no') {
+        matchesFilter = !person.assessmentIds;
       } else {
         matchesFilter = true;
       }
@@ -113,8 +97,8 @@ class PopulationBoard extends Component {
   }
 
   render() {
+    // TODO: Remove this 
     const riskScore = 6;
-
     return (
       <Article>
         <Index 
@@ -143,26 +127,20 @@ class PopulationBoard extends Component {
   }
 };
 
-// export const mapQueriesToProps = ({ ownProps, state }) => {
-//   return {
-//     category: {
-//       query: gql`
-//         query persons() {
-//           firstName,
-//           lastName
-//         }
-//       `,
-//       forceFetch: false, // optional 
-//       returnPartialData: true,  // optional
-//     },
-//   };
-// };
+const personsQuery = 
+  gql`
+  query {
+    persons {
+      firstName
+      lastName
+      assessmentIds
+    }
+  } `;
 
-export const stateToProps = state => ({
-  ...state,
+const listPersons = graphql(personsQuery, {
+  props: ({ data }) => ({ 
+    response: data ? data : []
+  })
 });
 
-export default connect( 
-  stateToProps, actions
-)(PopulationBoard);
-
+export default listPersons(PopulationBoard);
