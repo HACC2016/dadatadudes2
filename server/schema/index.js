@@ -30,10 +30,10 @@ const QueryType = new GraphQLObjectType({
       type: DistrictType,
       description: 'The city council district, and associated council member.',
       args: {
-        id: { type: new GraphQLNonNull(GraphQLString) }
+        districtId: { type: new GraphQLNonNull(GraphQLString) }
       },
       resolve: (obj, args, { loaders }) => (
-        loaders.districtsByIds.load(args.id)
+        loaders.districtsByIds.load(args.districtId)
       )
     },
 
@@ -52,10 +52,10 @@ const QueryType = new GraphQLObjectType({
       type: new GraphQLList(PersonType),
       description: 'Description and information of a homeless individual.',
       args: {
-        reportId: { type: GraphQLString }
+        districtId: { type: GraphQLString }
       },
       resolve: (obj, args, { loaders }) => (
-        loaders.personsByReportIds.load(args.reportId)
+        loaders.personsByDistrictIds.load(args.districtId)
       )
     }
   })
