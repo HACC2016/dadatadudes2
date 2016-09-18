@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { populationBoard as actions } from './module';
 import { connect } from 'react-redux';
+import gql from 'graphql-tag'
 
 import Index from 'grommet-index/components/Index';
 import Article from 'grommet/components/Article';
@@ -140,9 +141,26 @@ class PopulationBoard extends Component {
   }
 };
 
+// export const mapQueriesToProps = ({ ownProps, state }) => {
+//   return {
+//     category: {
+//       query: gql`
+//         query persons() {
+//           firstName,
+//           lastName
+//         }
+//       `,
+//       forceFetch: false, // optional 
+//       returnPartialData: true,  // optional
+//     },
+//   };
+// };
+
 export const stateToProps = state => ({
-  ...state
+  ...state,
 });
 
-export default connect(stateToProps, actions)(PopulationBoard);
+export default connect( 
+  stateToProps, actions
+)(PopulationBoard);
 

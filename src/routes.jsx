@@ -8,10 +8,12 @@ import RiskScore from './containers/RiskScore';
 export default (
   <Route>
     <Redirect from="/" to="dashboard" />
-    <Route component={Main}>  		
+    <Route path="/">
       <Route path="login" component={Login} />
-      <Route path="dashboard" component={PopulationBoard} />
-      <Route path="risk-score" component={RiskScore} />
+      <Route component={Main}>  		
+        <Route path="dashboard" component={PopulationBoard} />
+        <Route path="risk-score" component={RiskScore} />
+      </Route>
     </Route>
   </Route>
 );
