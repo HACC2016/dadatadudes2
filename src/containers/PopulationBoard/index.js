@@ -113,6 +113,7 @@ class PopulationBoard extends Component {
   }
 
   render() {
+    const riskScore = 6;
 
     return (
       <Article>
@@ -134,7 +135,8 @@ class PopulationBoard extends Component {
           emptyAddControl={<noscript/>}/>
         {this.state.showDetails && 
           <PersonDetailsLayer 
-            onClose={this._closeLayer} />
+            onClose={this._closeLayer}
+            riskScore={riskScore} />
         }
       </Article>
     );
