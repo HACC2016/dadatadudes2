@@ -14,10 +14,17 @@ import DocumentIcon from 'grommet/components/icons/base/Document';
 import RiskIcon from 'grommet/components/icons/base/Risk';
 import GroupIcon from 'grommet/components/icons/base/Group';
 
-const PersonDetailsLayer = ({onClose, riskScore}) => {
+const PersonDetailsLayer = ({
+  onClose, 
+  riskScore, 
+  personDetails: {
+    firstName,
+    lastName
+  }
+}) => {
   return (
     <LayerForm
-      title="Person Details"
+      title={`${firstName} ${lastName}`}
       compact={false}
       submitLabel="Ok"
       onSubmit={onClose}

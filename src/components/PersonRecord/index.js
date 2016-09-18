@@ -9,9 +9,11 @@ import Box from 'grommet/components/Box';
 const PersonRecord = ({
   index,
   item: {
+    _id,
     firstName,
     lastName,
-    assessmentIds
+    assessmentIds,
+    openLayer,
   }
 }) =>
   <ListItem
@@ -20,7 +22,7 @@ const PersonRecord = ({
     align="start"
     justify="between"
     separator="horizontal"
-    onClick={() => browserHistory.push(`/risk-score/${assessmentIds}`)}
+    onClick={() => openLayer(_id)}
     pad={{
       horizontal: 'large',
       vertical: 'medium',
