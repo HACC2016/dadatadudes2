@@ -6,6 +6,7 @@ import { browserHistory } from 'react-router';
 import Article from 'grommet/components/Article';
 import Section from 'grommet/components/Section';
 import LoginForm from 'grommet/components/LoginForm';
+import Image from 'grommet/components/Image';
 
 class Login extends Component {
   constructor(props) {
@@ -38,7 +39,12 @@ class Login extends Component {
       <Article>
         <Section align="center" justify="center">
           <LoginForm
-            title="Welcome"
+            logo={
+              <Image 
+                size="small"
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Seal_of_the_State_of_Hawaii.svg/2000px-Seal_of_the_State_of_Hawaii.svg.png" />
+            }
+            secondaryText="Welcome"
             onSubmit={this._onSubmit} 
             errors={this.state.errors}/>
         </Section>
