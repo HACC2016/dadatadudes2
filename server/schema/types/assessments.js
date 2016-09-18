@@ -51,29 +51,6 @@ const AssessmentRisksType = new GraphQLObjectType({
   }
 });
 
-const AssessmentScoresType = new GraphQLObjectType({
-  name: 'AssessmentScoresType',
-  description: 'Risk assessment values.',
-  fields: {
-    basicDemoGraphicRiskScore: { type: GraphQLInt },
-    riskOfHarmScore: { type: GraphQLInt },
-    emergencyUseRiskScore: { type: GraphQLInt },
-    historyRiskScore: { type: GraphQLInt },
-    legalIssuesScore: { type: GraphQLInt },
-    riskOrExplotationScore: { type: GraphQLInt },
-    moneyManagementScore: { type: GraphQLInt },
-    meaningfulDailyActivityScore: { type: GraphQLInt },
-    selfCareScore: { type: GraphQLInt },
-    socialRelationshipsScore: { type: GraphQLInt },
-    physicalHealthScore: { type: GraphQLInt },
-    substanceAbuseScore: { type: GraphQLInt },
-    mentalHealthScore: { type: GraphQLInt },
-    TriMobilityScore: { type: GraphQLInt },
-    medicationsScore: { type: GraphQLInt },
-    abuseAndTraumaScore: { type: GraphQLInt }
-  }
-});
-
 const AssessmentWellnessType = new GraphQLObjectType({
   name: 'AssessmentWellnessType',
   description: 'Wellness of the assessed person.',
@@ -108,6 +85,89 @@ const AssessmentSDFType = new GraphQLObjectType({
   }
 });
 
+const AssessmentScoresType = new GraphQLObjectType({
+  name: 'AssessmentScoresType',
+  description: 'Risk assessment values.',
+  fields: {
+    basicDemographicRiskScore: { type: GraphQLInt },
+    noHousingScore: { type: GraphQLInt },
+    consectutiveHomelessnessScore: { type: GraphQLInt },
+    riskOfHarmScore: { type: GraphQLInt },
+    emergencyUseRiskScore: { type: GraphQLInt },
+    legalIssuesScore: { type: GraphQLInt },
+    riskOfExploitationScore: { type: GraphQLInt },
+    moneyManagementScore: { type: GraphQLInt },
+    meaningfulDailyActivityScore: { type: GraphQLInt },
+    selfCareScore: { type: GraphQLInt },
+    socialRelationshipsScore: { type: GraphQLInt },
+    physicalHealthScore: { type: GraphQLInt },
+    substanceAbuseScore: { type: GraphQLInt },
+    mentalHealthScore: { type: GraphQLInt },
+    TriMobilityScore: { type: GraphQLInt },
+    medicationsScore: { type: GraphQLInt },
+    abuseAndTraumaScore: { type: GraphQLInt }
+  }
+});
+
+const summaryResolvers = {
+  preSurveyScore: {
+    type: GraphQLInt,
+    resolve: ({ scores }) => (
+      scores.basicDemographicRiskScore || 0
+    )
+  },
+  historyOfHousingAndHomelessnessScore: {
+    type: GraphQLInt,
+    resolve: ({ scores }) => {
+      const noHousingScore = scores.noHousingScore || 0;
+      const consectutiveHomelessnessScore = scores.consectutiveHomelessnessScore || 0;
+      return noHousingScore + consectutiveHomelessnessScore;
+    }
+  },
+  risksScore: {
+    type: GraphQLInt,
+    resolve: ({ scores }) => {
+      const emergencyUseRiskScore = scores.emergencyUseRiskScore || 0;
+      const riskOfHarmScore = scores.riskOfHarmScore || 0;
+      const legalIssuesScore = scores.legalIssuesScore || 0;
+      const riskOfExploitationScore = scores.riskOfExploitationScore || 0;
+
+      return emergencyUseRiskScore + riskOfHarmScore + legalIssuesScore + riskOfExploitationScore;
+    }
+  },
+  socializingAndDailyFunctionsScore: {
+    type: GraphQLInt,
+    resolve: ({ scores }) => {
+      const moneyManagementScore = scores.moneyManagementScore || 0;
+      const meaningfulDailyActivityScore = scores.meaningfulDailyActivityScore || 0;
+      const selfCareScore = scores.selfCareScore || 0;
+      const socialRelationshipsScore = scores.socialRelationshipsScore || 0;
+
+      return moneyManagementScore +
+             meaningfulDailyActivityScore +
+             selfCareScore +
+             socialRelationshipsScore;
+    }
+  },
+  wellnessScore: {
+    type: GraphQLInt,
+    resolve: ({ scores }) => {
+      const physicalHealthScore = scores.physicalHealthScore || 0;
+      const substanceAbuseScore = scores.substanceAbuseScore || 0;
+      const mentalHealthScore = scores.mentalHealthScore || 0;
+      const TriMobilityScore = scores.TriMobilityScore || 0;
+      const medicationsScore = scores.medicationsScore || 0;
+      const abuseAndTraumaScore = scores.abuseAndTraumaScore || 0;
+      return physicalHealthScore +
+             substanceAbuseScore +
+            mentalHealthScore +
+            TriMobilityScore +
+            medicationsScore +
+            abuseAndTraumaScore;
+    }
+  }
+};
+
 const AssessmentType = new GraphQLObjectType({
   name: 'AssessmentType',
 
@@ -126,6 +186,7 @@ const AssessmentType = new GraphQLObjectType({
         }, 0);
       }
     },
+    ...summaryResolvers,
     generalDemographics: { type: AssessmentGDType },
     historyOfHousingAndHomelessness: { type: AssessmentHHHType },
     risks: { type: AssessmentRisksType },

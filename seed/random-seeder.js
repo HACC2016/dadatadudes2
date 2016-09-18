@@ -105,12 +105,12 @@ function generateAssessment(person) {
       beingExploitedForSexOrDrugs: casual.coin_flip
     },
     scores: {
-      basicDemoGraphicRiskScore: casual.integer(from = 0, to = 1),
+      basicDemographicRiskScore: casual.integer(from = 0, to = 1),
       riskOfHarmScore: casual.integer(from = 0, to = 1),
       emergencyUseRiskScore: casual.integer(from = 0, to = 1),
       historyRiskScore: casual.integer(from = 0, to = 1),
       legalIssuesScore: casual.integer(from = 0, to = 1),
-      riskOrExplotationScore: casual.integer(from = 0, to = 1),
+      riskOfExploitationScore: casual.integer(from = 0, to = 1),
       moneyManagementScore: casual.integer(from = 0, to = 1),
       meaningfulDailyActivityScore: casual.integer(from = 0, to = 1),
       selfCareScore: casual.integer(from = 0, to = 1),
