@@ -35,8 +35,20 @@ module.exports = {
       test: /\.json?$/,
       loader: 'json'
     }, {
+      test: /\.scss$/,
+      loader: 'style!css!sass?outputStyle=expanded&' +
+        'includePaths[]=' +
+        (encodeURIComponent(
+          path.resolve(process.cwd(), './node_modules')
+        )) +
+        '&includePaths[]=' +
+        (encodeURIComponent(
+          path.resolve(process.cwd(),
+          './node_modules/grommet/node_modules'))
+        )
+    }, {
       test: /\.css$/,
-      loader: 'style!css?modules&localIdentName=[name]---[local]---[hash:base64:5]'
+      loader: 'style-loader!css-loader'
     }]
   },
   devServer: {
