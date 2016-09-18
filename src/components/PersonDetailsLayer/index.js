@@ -16,12 +16,20 @@ import GroupIcon from 'grommet/components/icons/base/Group';
 
 const PersonDetailsLayer = ({
   onClose, 
-  riskScore, 
   personDetails: {
     firstName,
-    lastName
+    lastName,
+    assessments
   }
 }) => {
+  const { 
+    overallRiskScore,
+    historyOfHousingAndHomelessnessScore,
+    preSurveyScore,
+    risksScore,
+    socializingAndDailyFunctionsScore,
+    wellnessScore,
+  } = assessments[0];
   return (
     <LayerForm
       title={`${firstName} ${lastName}`}
@@ -36,7 +44,7 @@ const PersonDetailsLayer = ({
           max={17} 
           min={0} 
           type="arc" 
-          value={11}
+          value={overallRiskScore}
           thresholds={[
             {value: 5, label: 'Ok', colorIndex: 'ok'},
             {value: 10, label: 'Warning', colorIndex: 'warning'},
@@ -46,16 +54,31 @@ const PersonDetailsLayer = ({
       <Box
         direction="row" 
         justify="between">
-        <Value label="Pre-Survey" value={1} icon={<DocumentIcon />} />
-        <Value label="History" value={2} icon={<HistoryIcon />} />
+        <Value 
+          label="Pre-Survey" 
+          value={preSurveyScore} 
+          icon={<DocumentIcon />} />
+        <Value 
+          label="History" 
+          value={historyOfHousingAndHomelessnessScore} 
+          icon={<HistoryIcon />} />
       </Box>
 
       <Box 
         direction="row" 
         justify="between">
-        <Value label="Risks" value={2} icon={<RiskIcon />} />
-        <Value label="Social & Daily" value={3} icon={<GroupIcon />} />
-        <Value label="Wellness" value={3} icon={<TaskIcon />} />
+        <Value 
+          label="Risks" 
+          value={risksScore} 
+          icon={<RiskIcon />} />
+        <Value 
+          label="Social & Daily" 
+          value={socializingAndDailyFunctionsScore} 
+          icon={<GroupIcon />} />
+        <Value 
+          label="Wellness" 
+          value={wellnessScore} 
+          icon={<TaskIcon />} />
       </Box>
 
     </LayerForm>

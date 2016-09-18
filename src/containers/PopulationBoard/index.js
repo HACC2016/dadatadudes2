@@ -141,8 +141,7 @@ class PopulationBoard extends Component {
         {this.state.showDetails && 
           <PersonDetailsLayer 
             personDetails={this._findPerson()}
-            onClose={this._closeLayer}
-            riskScore={riskScore} />
+            onClose={this._closeLayer} />
         }
       </Article>
     );
@@ -157,6 +156,16 @@ const personsQuery =
       firstName
       lastName
       assessmentIds
+      assessments {
+        _id
+        personId
+        overallRiskScore
+        preSurveyScore
+        historyOfHousingAndHomelessnessScore
+        risksScore
+        socializingAndDailyFunctionsScore
+        wellnessScore
+      }
     }
   } `;
 
