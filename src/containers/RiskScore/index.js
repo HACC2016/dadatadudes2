@@ -8,9 +8,10 @@ import Menu from 'grommet/components/Menu';
 import Header from 'grommet/components/Header';
 import Heading from 'grommet/components/Heading';
 import Anchor from 'grommet/components/Anchor';
-import Chart from 'grommet/components/Chart';
-import Base from 'grommet/components/Chart/Base';
-import Bar from 'grommet/components/Chart/Bar';
+import Chart from 'grommet/components/chart/Chart';
+import Layers from 'grommet/components/chart/Layers';
+import Base from 'grommet/components/chart/Base';
+import Bar from 'grommet/components/chart/Bar';
 import Button from 'grommet/components/Button';
 import AnalyticsIcon from 'grommet/components/icons/base/Analytics';
 import ResourcesIcon from 'grommet/components/icons/base/Resources';
@@ -23,8 +24,6 @@ class RiskScore extends Component {
     this.state = {
       
     };
-    this._selectIsland   = this._selectIsland.bind(this);
-    this._selectCategory = this._selectCategory.bind(this);
   }
 
   _selectIsland() {
@@ -34,35 +33,55 @@ class RiskScore extends Component {
   _selectCategory() {
 
   }
-  
+
   render() {
     return (
       <Article direction="column" justify="start">
-        <Heading align="center" tag="h4">Islands</Heading>
-        <Box 
-          align="center" 
-          justify="center">
-          <Menu inline={true} direction="row">
-            <Anchor>Oahu</Anchor>
-            <Anchor>Maui</Anchor>
-            <Anchor>Hawaii</Anchor>
-            <Anchor>Kauai</Anchor>
-          </Menu>
+        <Box>
+          <Heading align="center" tag="h4">Islands</Heading>
+          <Box 
+            align="center" 
+            justify="center">
+            <Menu inline={true} direction="row">
+              <Anchor onClick={() => this._selectIsland('oahu')}>Oahu</Anchor>
+              <Anchor onClick={() => this._selectIsland('maui')}>Maui</Anchor>
+              <Anchor onClick={() => this._selectIsland('hawaii')}>Hawaii</Anchor>
+              <Anchor onClick={() => this._selectIsland('kauai')}>Kauai</Anchor>
+            </Menu>
+          </Box>
+          <Box 
+            justify="between" 
+            direction="row"
+            pad={{horizontal: 'large'}}>
+            <Button 
+              accent={true}
+              onClick={() => this._selectCategory('numberOf')}
+              label="Number of Homeless" 
+              icon={<ResourcesIcon />} />
+            <Button 
+              accent={true}
+              onClick={() => this._selectCategory('riskScore')}
+              label="Risk Score Percentage" 
+              icon={<AnalyticsIcon />} />
+          </Box>
         </Box>
-        <Box 
-          justify="between" 
-          direction="row"
-          pad={{horizontal: 'large'}}>
-          <Button 
-            accent={true}
-            onClick={() => {}}
-            label="Number of Homeless" 
-            icon={<ResourcesIcon />} />
-          <Button 
-            accent={true}
-            onClick={() => {}}
-            label="Risk Score Percentage" 
-            icon={<AnalyticsIcon />} />
+        <Box>
+          <Chart full={true}>
+            {/*<Axis 
+              vertical={true} 
+              count={4} 
+              labels={[
+                {index: 3, label: `${max(values)} ${unit}`},
+                {index: 1, label: `${max(values) / 2} ${unit}`}
+              ]} 
+              ticks={true} />*/}
+            <Base height="small" width="full"/>
+            <Layers>
+              <Bar 
+                colorIndex="accent-1"
+                values={[55, 46, 59]} />
+            </Layers>
+          </Chart>
         </Box>
       </Article>
     );
