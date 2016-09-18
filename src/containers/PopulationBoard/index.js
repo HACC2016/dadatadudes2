@@ -22,55 +22,31 @@ class PopulationBoard extends Component {
       sort: 'lastName:asc',
       query: '',
       result: {
-        items: [
-         {firstName: 'Brock', lastName: 'Lanoza',  assessmentId: [] },
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Bob',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: []},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: []},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: []},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: []},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-        ],
+        items: [],
         start: 0,
         count: 2,
         total: 2,
         unfilteredTotal: 2
       },
-      data: {
-        items: [
-         {firstName: 'Brock', lastName: 'Lanoza',  assessmentId: [] },
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Bob',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: []},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: []},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: []},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: []},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-        ],
-        start: 0,
-        count: 2,
-        total: 2,
-        unfilteredTotal: 2
-      }
     };
     this._handleFiltering = this._handleFiltering.bind(this);
     this._onFilter        = this._onFilter.bind(this);
     this._onSort          = this._onSort.bind(this);
     this._onSearch        = this._onSearch.bind(this);
     this._closeLayer      = this._closeLayer.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.response) {
+      console.log(nextProps.response.persons, 'persons');
+      this.setState({result: {
+        items: nextProps.response.persons,
+        start: 0,
+        count: nextProps.response.persons.length,
+        total: nextProps.response.persons.length,
+        unfilteredTotal: nextProps.response.persons.length,
+      }});
+    }
   }
 
   _handleFiltering() {
@@ -116,7 +92,7 @@ class PopulationBoard extends Component {
   render() {
     // TODO: Remove this 
     const riskScore = 6;
-
+    console.log(this.props, 'props');
     return (
       <Article>
         <Index 
@@ -164,8 +140,8 @@ class PopulationBoard extends Component {
 //   ...state,
 // });
 
-const personsQuery = {
-  query: gql`
+const personsQuery = 
+  gql`
   query {
     persons(districtId: "Honolulu-04") {
       assessments {
@@ -179,15 +155,11 @@ const personsQuery = {
         wellnessScore
       }
     }
-  } 
-  `,
-  forceFetch: false, // optional 
-  returnPartialData: true,  // optional
-};
+  } `;
 
 const listPersons = graphql(personsQuery, {
   props: ({ data }) => ({ 
-    persons: data ? data : []
+    response: data ? data : []
   })
 });
 
