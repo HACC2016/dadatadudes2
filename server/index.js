@@ -38,6 +38,7 @@ MongoClient.connect(process.env.MONGO_URL, (err, mPool) => {
       reportsByDistrictIds: new DataLoader(mdb.getReportsByDistrictIds),
       personsByDistrictIds: new DataLoader(mdb.getPersonsByDistrictIds),
       personsByReportIds: new DataLoader(mdb.getPersonsByReportIds),
+      personsByIds: new DataLoader(mdb.getPersonsByIds),
       assessmentsByPersonIds: new DataLoader(mdb.getAssessmentsByPersonIds)
     };
 

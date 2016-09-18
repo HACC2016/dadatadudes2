@@ -53,11 +53,14 @@ const QueryType = new GraphQLObjectType({
       type: new GraphQLList(PersonType),
       description: 'Description and information of a homeless individual.',
       args: {
-        districtId: { type: GraphQLString }
+        districtId: { type: GraphQLString },
+        _id: { type: GraphQLString }
       },
       resolve: (obj, args, { mdb, loaders }) => {
         if (args.districtId) {
           return loaders.personsByDistrictIds.load(args.districtId);
+        } else if (args._id) {
+          return loaders.personsByIds.load(args._id);
         }
 
         return mdb.getAllPersons();

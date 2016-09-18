@@ -46,6 +46,16 @@ export default function mdbConstructor(mPool) {
         );
     },
 
+    getPersonsByIds(ids) {
+      const ObjectIds = mapIdsToObjectIDs(ids);
+      return mPool.collection('persons')
+        .find({ _id: { $in: ObjectIds } })
+        .toArray()
+        .then(rows =>
+          orderedFor(rows, ObjectIds, '_id', false)
+        );
+    },
+
     getPersonsByDistrictIds(districtIds) {
       return mPool.collection('persons')
         .find({ districtId: { $in: districtIds } })
