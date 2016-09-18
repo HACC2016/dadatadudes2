@@ -1,8 +1,6 @@
 // (C) Copyright 2016 Hewlett Packard Enterprise Development LP
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-import { buildInfo } from 'utils';
-import has from 'lodash/has';
 
 import CloseIcon from 'grommet/components/icons/base/Close';
 
@@ -32,20 +30,15 @@ export const SidebarNav = ({routes}) =>
           justify="between"
           primary={true}>
 
-          { /*routes.map((route, index) =>
-            has(route, 'isDisabled') && route.isDisabled?
-              <a key={index} className="link" href="#">
-                {intl.formatMessage(route.label)}
-              </a>
-            :
-              <Link
-                key={index}
-                className="link grommetux-anchor"
-                to={route.route}
-                activeClassName="active">
-                {intl.formatMessage(route.label)}
-              </Link>
-          ) */}
+          {routes.map((route, i) =>
+          <Link
+            key={i}
+            className="link grommetux-anchor"
+            to={route.route}
+            activeClassName="active">
+            {route.label}
+          </Link>
+          )}
         </Menu>
       </Box>
 
