@@ -65,6 +65,15 @@ export default function mdbConstructor(mPool) {
         );
     },
 
+    getAllPersons() {
+      return mPool.collection('persons')
+        .find()
+        .toArray()
+        .then(rows =>
+          rows
+        );
+    },
+
     getAssessmentsByPersonIds(personIds) {
       const personObjectIds = mapIdsToObjectIDs(personIds);
       return mPool.collection('assessments')

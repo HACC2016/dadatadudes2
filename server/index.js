@@ -45,7 +45,7 @@ MongoClient.connect(process.env.MONGO_URL, (err, mPool) => {
       schema,
       graphiql: true,
       pretty: true,
-      context: { loaders },
+      context: { mdb, loaders },
       formatError: error => ({
         message: error.message,
         locations: error.locations,

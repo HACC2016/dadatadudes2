@@ -55,9 +55,13 @@ const QueryType = new GraphQLObjectType({
       args: {
         districtId: { type: GraphQLString }
       },
-      resolve: (obj, args, { loaders }) => (
-        loaders.personsByDistrictIds.load(args.districtId)
-      )
+      resolve: (obj, args, { mdb, loaders }) => {
+        if (args.districtId) {
+          return loaders.personsByDistrictIds.load(args.districtId);
+        }
+
+        return mdb.getAllPersons();
+      }
     },
 
     assessments: {
