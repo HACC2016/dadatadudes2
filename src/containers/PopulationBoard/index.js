@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { populationBoard as actions } from './module';
 import { connect } from 'react-redux';
-import gql from 'graphql-tag'
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import Index from 'grommet-index/components/Index';
 import Article from 'grommet/components/Article';
@@ -113,6 +114,7 @@ class PopulationBoard extends Component {
   }
 
   render() {
+    // TODO: Remove this 
     const riskScore = 6;
 
     return (
@@ -158,11 +160,40 @@ class PopulationBoard extends Component {
 //   };
 // };
 
-export const stateToProps = state => ({
-  ...state,
+// export const stateToProps = state => ({
+//   ...state,
+// });
+
+const personsQuery = {
+  query: gql`
+  query {
+    persons(districtId: "Honolulu-04") {
+      assessments {
+        _id
+        personId
+        overallRiskScore
+        preSurveyScore
+        historyOfHousingAndHomelessnessScore
+        risksScore
+        socializingAndDailyFunctionsScore
+        wellnessScore
+      }
+    }
+  } 
+  `,
+  forceFetch: false, // optional 
+  returnPartialData: true,  // optional
+};
+
+const listPersons = graphql(personsQuery, {
+  props: ({ data }) => ({ 
+    persons: data ? data : []
+  })
 });
 
-export default connect( 
-  stateToProps, actions
-)(PopulationBoard);
+export default listPersons(PopulationBoard);
+
+// export default connect( 
+//   stateToProps, actions
+// )(PopulationBoard);
 
