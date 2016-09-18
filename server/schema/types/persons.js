@@ -2,11 +2,12 @@ import {
   GraphQLString,
   GraphQLID,
   GraphQLInt,
+  GraphQLList,
   GraphQLObjectType
 } from 'graphql';
 
-const DistrictType = new GraphQLObjectType({
-  name: 'DistrictType',
+const PersonType = new GraphQLObjectType({
+  name: 'PersonType',
 
   fields: () => ({
     _id: { type: GraphQLID },
@@ -25,8 +26,8 @@ const DistrictType = new GraphQLObjectType({
     employmentLastEmployed: { type: GraphQLString },
     employmentStatus: { type: GraphQLString },
     ethnicity: { type: GraphQLString },
-    familyMembersAdult: { type: GraphQLString },
-    familyMembersChildren: { type: GraphQLString },
+    familyMembersAdult: { type: GraphQLInt },
+    familyMembersChildren: { type: GraphQLInt },
     firstName: { type: GraphQLString },
     gender: { type: GraphQLString },
     geoLocation: { type: GraphQLString },
@@ -38,14 +39,14 @@ const DistrictType = new GraphQLObjectType({
     mentalHealthDisability: { type: GraphQLString },
     onTheStreets: { type: GraphQLString },
     otherDisability: { type: GraphQLString },
-    reportIds: { type: GraphQLString },
+    reportIds: { type: new GraphQLList(GraphQLString) },
     reasonForHomelessness: { type: GraphQLString },
     shelterName: { type: GraphQLString },
     shelterStatus: { type: GraphQLString },
     ssn: { type: GraphQLString },
-    timeHomelessCount: { type: GraphQLString },
+    timeHomelessCount: { type: GraphQLInt },
     veteran: { type: GraphQLString }
   })
 });
 
-export default DistrictType;
+export default PersonType;

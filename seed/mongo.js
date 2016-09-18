@@ -12,10 +12,12 @@ const seeder = require('./random-seeder');
       const users = db.collection('users');
       const districts = db.collection('districts');
       const reports = db.collection('reports');
+      const persons = db.collection('persons');
 
-      const userRemove = yield users.remove({});
-      const districtRemove = yield districts.remove({});
-      const reportRemove = yield reports.remove({});
+      yield users.remove({});
+      yield districts.remove({});
+      yield reports.remove({});
+      yield persons.remove({});
 
       db.close();
     } catch (err) {

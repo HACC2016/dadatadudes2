@@ -35,7 +35,8 @@ MongoClient.connect(process.env.MONGO_URL, (err, mPool) => {
     const loaders = {
       usersByEmails: new DataLoader(mdb.getUsersByEmails),
       districtsByIds: new DataLoader(mdb.getDistrictsByIds),
-      reportsByDistrictIds: new DataLoader(mdb.getReportsByDistrictIds)
+      reportsByDistrictIds: new DataLoader(mdb.getReportsByDistrictIds),
+      personsByReportIds: new DataLoader(mdb.getPersonsByReportIds)
     };
 
     graphqlHTTP(({

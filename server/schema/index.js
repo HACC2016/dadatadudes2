@@ -9,6 +9,7 @@ import {
 import UserType from './types/user';
 import DistrictType from './types/districts';
 import ReportType from './types/reports';
+import PersonType from './types/persons';
 
 const QueryType = new GraphQLObjectType({
   name: 'QueryType',
@@ -44,6 +45,17 @@ const QueryType = new GraphQLObjectType({
       },
       resolve: (obj, args, { loaders }) => (
         loaders.reportsByDistrictIds.load(args.districtId)
+      )
+    },
+
+    persons: {
+      type: new GraphQLList(PersonType),
+      description: 'Description and information of a homeless individual.',
+      args: {
+        reportId: { type: GraphQLString }
+      },
+      resolve: (obj, args, { loaders }) => (
+        loaders.personsByReportIds.load(args.reportId)
       )
     }
   })
