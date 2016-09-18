@@ -61,10 +61,10 @@ class PopulationBoard extends Component {
     const filtered = personsList.items.filter(person => {
       const matchesSearch = person.lastName.toLowerCase().includes(query.toLowerCase());
       let matchesFilter;
-      if (filter.assessmentId[0] === 'yes') {
-        matchesFilter = person.assessmentId.length > 0;
-      } else if (filter.assessmentId[0] === 'no') {
-        matchesFilter = person.assessmentId.length === 0;
+      if (filter.assessmentIds[0] === 'yes') {
+        matchesFilter = Array.isArray(person.assessmentIds);
+      } else if (filter.assessmentIds[0] === 'no') {
+        matchesFilter = !person.assessmentIds;
       } else {
         matchesFilter = true;
       }
