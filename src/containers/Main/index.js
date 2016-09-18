@@ -11,6 +11,7 @@ export class Main extends Component {
   }
 
   render() {
+  	console.log('hell yea');
     const { children } = this.props;
 
     return (
