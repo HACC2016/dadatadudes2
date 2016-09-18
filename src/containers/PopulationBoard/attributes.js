@@ -4,10 +4,13 @@ export default [{
   filter: {
     values: [{
       label: 'Assessment',
-      value: ''
+      value: 'yes'
+    }, {
+      label: 'No Assessment',
+      value: 'no'
     }]
   }
-},{
+}, {
   label: 'Last Name',
   name: 'lastName',
   sort: {

@@ -23,15 +23,15 @@ class PopulationBoard extends Component {
         items: [
          {firstName: 'Brock', lastName: 'Lanoza',  assessmentId: [] },
          {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
+         {firstName: 'Bob',  lastName: 'Anich', assessmentId: ['1']},
+         {firstName: 'Alex',  lastName: 'Anich', assessmentId: []},
          {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
          {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
+         {firstName: 'Alex',  lastName: 'Anich', assessmentId: []},
          {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
          {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
+         {firstName: 'Alex',  lastName: 'Anich', assessmentId: []},
+         {firstName: 'Alex',  lastName: 'Anich', assessmentId: []},
          {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
          {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
          {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
@@ -45,15 +45,15 @@ class PopulationBoard extends Component {
         items: [
          {firstName: 'Brock', lastName: 'Lanoza',  assessmentId: [] },
          {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
+         {firstName: 'Bob',  lastName: 'Anich', assessmentId: ['1']},
+         {firstName: 'Alex',  lastName: 'Anich', assessmentId: []},
          {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
          {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
+         {firstName: 'Alex',  lastName: 'Anich', assessmentId: []},
          {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
          {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
-         {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
+         {firstName: 'Alex',  lastName: 'Anich', assessmentId: []},
+         {firstName: 'Alex',  lastName: 'Anich', assessmentId: []},
          {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
          {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
          {firstName: 'Alex',  lastName: 'Anich', assessmentId: ['1']},
@@ -75,7 +75,14 @@ class PopulationBoard extends Component {
     const { filter, sort, query, data } = this.state;
     const filtered = data.items.filter(person => {
       const matchesSearch = person.lastName.toLowerCase().includes(query.toLowerCase());
-      const matchesFilter = person.assessmentId.length >= filter.assessmentId.length;
+      let matchesFilter;
+      if (filter.assessmentId[0] === 'yes') {
+        matchesFilter = person.assessmentId.length > 0;
+      } else if (filter.assessmentId[0] === 'no') {
+        matchesFilter = person.assessmentId.length === 0;
+      } else {
+        matchesFilter = true;
+      }
       return matchesSearch && matchesFilter;     
     });
     const sortType = sort.split(':')[0];
