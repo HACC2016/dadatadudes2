@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router';
+import { Route, Redirect, IndexRoute } from 'react-router';
 import Main from './containers/Main';
 import Login from './containers/Login';
 import PopulationBoard from './containers/PopulationBoard';

@@ -9,11 +9,13 @@ import attributes from './attributes';
 
 import PersonRecord from '../../components/PersonRecord';
 import EmptyList from '../../components/EmptyList';
+import PersonDetailsLayer from '../../components/PersonDetailsLayer';
 
 class PopulationBoard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      showDetails: true,
       filter: { assessmentId: [] },
       sort: 'lastName:asc',
       query: '',
@@ -66,6 +68,7 @@ class PopulationBoard extends Component {
     this._onFilter        = this._onFilter.bind(this);
     this._onSort          = this._onSort.bind(this);
     this._onSearch        = this._onSearch.bind(this);
+    this._closeLayer      = this._closeLayer.bind(this);
   }
 
   _handleFiltering() {
@@ -97,6 +100,10 @@ class PopulationBoard extends Component {
     this.setState({query: text}, this._handleFiltering);
   }
 
+  _closeLayer() {
+    this.setState({showDetails: false});
+  }
+
   render() {
 
     return (
@@ -117,6 +124,9 @@ class PopulationBoard extends Component {
           label="Population Board"
           emptyMessage={<EmptyList />}
           emptyAddControl={<noscript/>}/>
+        {this.state.showDetails && 
+          <PersonDetailsLayer onClose={this._closeLayer} />
+        }
       </Article>
     );
   }
