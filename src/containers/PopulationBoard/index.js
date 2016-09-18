@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { populationBoard as actions } from './module';
-import { connect } from 'react-redux';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -39,19 +37,28 @@ class PopulationBoard extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.response) {
       console.log(nextProps.response.persons, 'persons');
-      this.setState({result: {
-        items: nextProps.response.persons,
-        start: 0,
-        count: nextProps.response.persons.length,
-        total: nextProps.response.persons.length,
-        unfilteredTotal: nextProps.response.persons.length,
-      }});
+      this.setState({
+        result: {
+          items: nextProps.response.persons,
+          start: 0,
+          count: nextProps.response.persons.length,
+          total: nextProps.response.persons.length,
+          unfilteredTotal: nextProps.response.persons.length,
+        },
+        personsList: {
+          items: nextProps.response.persons,
+          start: 0,
+          count: nextProps.response.persons.length,
+          total: nextProps.response.persons.length,
+          unfilteredTotal: nextProps.response.persons.length,
+        }
+      });
     }
   }
 
   _handleFiltering() {
-    const { filter, sort, query, data } = this.state;
-    const filtered = data.items.filter(person => {
+    const { filter, sort, query, personsList } = this.state;
+    const filtered = personsList.items.filter(person => {
       const matchesSearch = person.lastName.toLowerCase().includes(query.toLowerCase());
       let matchesFilter;
       if (filter.assessmentId[0] === 'yes') {
@@ -92,7 +99,6 @@ class PopulationBoard extends Component {
   render() {
     // TODO: Remove this 
     const riskScore = 6;
-    console.log(this.props, 'props');
     return (
       <Article>
         <Index 
@@ -121,39 +127,13 @@ class PopulationBoard extends Component {
   }
 };
 
-// export const mapQueriesToProps = ({ ownProps, state }) => {
-//   return {
-//     category: {
-//       query: gql`
-//         query persons() {
-//           firstName,
-//           lastName
-//         }
-//       `,
-//       forceFetch: false, // optional 
-//       returnPartialData: true,  // optional
-//     },
-//   };
-// };
-
-// export const stateToProps = state => ({
-//   ...state,
-// });
-
 const personsQuery = 
   gql`
   query {
-    persons(districtId: "Honolulu-04") {
-      assessments {
-        _id
-        personId
-        overallRiskScore
-        preSurveyScore
-        historyOfHousingAndHomelessnessScore
-        risksScore
-        socializingAndDailyFunctionsScore
-        wellnessScore
-      }
+    persons {
+      firstName
+      lastName
+      assessmentIds
     }
   } `;
 
@@ -164,8 +144,3 @@ const listPersons = graphql(personsQuery, {
 });
 
 export default listPersons(PopulationBoard);
-
-// export default connect( 
-//   stateToProps, actions
-// )(PopulationBoard);
-

@@ -11,7 +11,7 @@ const PersonRecord = ({
   item: {
     firstName,
     lastName,
-    assessmentId
+    assessmentIds
   }
 }) =>
   <ListItem
@@ -20,7 +20,7 @@ const PersonRecord = ({
     align="start"
     justify="between"
     separator="horizontal"
-    onClick={() => browserHistory.push(`/risk-score/${assessmentId}`)}
+    onClick={() => browserHistory.push(`/risk-score/${assessmentIds}`)}
     pad={{
       horizontal: 'large',
       vertical: 'medium',
@@ -30,7 +30,7 @@ const PersonRecord = ({
     <Box
       direction="row"
       pad={{between: 'small'}}>
-      <StatusIcon value={assessmentId.length ? 'ok' : 'critical'} />
+      <StatusIcon value={assessmentIds ? 'ok' : 'critical'} />
       <Box tag="span" pad={{horizontal: 'medium'}}>
         {`${firstName} ${lastName}`}
       </Box>
