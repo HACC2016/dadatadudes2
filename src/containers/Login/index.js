@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Login as actions } from './module';
+import { login as actions } from './module';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 
