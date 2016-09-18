@@ -5,15 +5,13 @@ import { connect } from 'react-redux';
 import App from 'grommet/components/App';
 import Split from 'grommet/components/Split';
 
-export class Main extends Component {
+class Main extends Component {
   componentWillMount() {
   	// TODO: Add auth
   }
 
   render() {
-  	console.log('hell yea');
     const { children } = this.props;
-
     return (
       <App centered={false}>
         <Split

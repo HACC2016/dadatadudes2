@@ -1,14 +1,15 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router';
-import Dashboard from './containers/Dashboard';
 import Main from './containers/Main';
+import Login from './containers/Login';
+import PopulationBoard from './containers/PopulationBoard';
 
 export default (
   <Route>
-    
-  	<Route path="/">
-  	  <Route component={Main}>
-  	  </Route>
+    <Redirect from="/" to="dashboard" />
+    <Route path="/" component={Main}>
+      <Route path="login" component={Login} />  		
+      <Route path="dashboard" component={PopulationBoard} />
     </Route>
   </Route>
 );
