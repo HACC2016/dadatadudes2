@@ -19,6 +19,16 @@ export default function mdbConstructor(mPool) {
   );
 
   return {
+
+    addReport(input) {
+      return mPool.collection('reports')
+        .insertOne(input)
+        .then(r => {
+          console.log(r.ops);
+          return r.ops;
+        });
+    },
+
     getUsersByEmails(emails) {
       return mPool.collection('users')
         .find({ email: { $in: emails } })
