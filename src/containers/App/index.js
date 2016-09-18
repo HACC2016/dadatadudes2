@@ -6,6 +6,7 @@ import routes from '../../routes';
 import Store from '../../store';
 const store = new Store(browserHistory, window.INITIAL_STATE);
 const history = syncHistoryWithStore(browserHistory, store.data);
+import '../../index.scss';
 
 
 const styles = StyleSheet.create({

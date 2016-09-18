@@ -7,8 +7,8 @@ import PopulationBoard from './containers/PopulationBoard';
 export default (
   <Route>
     <Redirect from="/" to="dashboard" />
-    <Route path="/" component={Main}>
-      <Route path="login" component={Login} />  		
+    <Route component={Main}>  		
+      <Route path="login" component={Login} />
       <Route path="dashboard" component={PopulationBoard} />
     </Route>
   </Route>
