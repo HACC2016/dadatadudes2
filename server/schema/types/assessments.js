@@ -118,39 +118,53 @@ const summaryResolvers = {
   },
   historyOfHousingAndHomelessnessScore: {
     type: GraphQLInt,
-    resolve: ({ scores }) => (
-      (scores.noHousingScore || 0) +
-      (scores.consectutiveHomelessnessScore || 0)
-    )
+    resolve: ({ scores }) => {
+      const noHousingScore = scores.noHousingScore || 0;
+      const consectutiveHomelessnessScore = scores.consectutiveHomelessnessScore || 0;
+      return noHousingScore + consectutiveHomelessnessScore;
+    }
   },
   risksScore: {
     type: GraphQLInt,
-    resolve: ({ scores }) => (
-      (scores.emergencyUseRiskScore || 0) +
-      (scores.riskOfHarmScore || 0) +
-      (scores.legalIssuesScore || 0) +
-      (scores.riskOfExploitationScore || 0)
-    )
+    resolve: ({ scores }) => {
+      const emergencyUseRiskScore = scores.emergencyUseRiskScore || 0;
+      const riskOfHarmScore = scores.riskOfHarmScore || 0;
+      const legalIssuesScore = scores.legalIssuesScore || 0;
+      const riskOfExploitationScore = scores.riskOfExploitationScore || 0;
+
+      return emergencyUseRiskScore + riskOfHarmScore + legalIssuesScore + riskOfExploitationScore;
+    }
   },
   socializingAndDailyFunctionsScore: {
     type: GraphQLInt,
-    resolve: ({ scores }) => (
-      (scores.moneyManagementScore || 0) +
-      (scores.meaningfulDailyActivityScore || 0) +
-      (scores.selfCareScore || 0) +
-      (scores.socialRelationshipsScore || 0)
-    )
+    resolve: ({ scores }) => {
+      const moneyManagementScore = scores.moneyManagementScore || 0;
+      const meaningfulDailyActivityScore = scores.meaningfulDailyActivityScore || 0;
+      const selfCareScore = scores.selfCareScore || 0;
+      const socialRelationshipsScore = scores.socialRelationshipsScore || 0;
+
+      return moneyManagementScore +
+             meaningfulDailyActivityScore +
+             selfCareScore +
+             socialRelationshipsScore;
+    }
   },
   wellnessScore: {
     type: GraphQLInt,
-    resolve: ({ scores }) => (
-      (scores.physicalHealthScore || 0) +
-      (scores.substanceAbuseScore || 0) +
-      (scores.mentalHealthScore || 0) +
-      (scores.TriMobilityScore || 0) +
-      (scores.medicationsScore || 0) +
-      (scores.abuseAndTraumaScore || 0)
-    )
+    resolve: ({ scores }) => {
+      const physicalHealthScore = scores.physicalHealthScore || 0;
+      const substanceAbuseScore = scores.substanceAbuseScore || 0;
+      const mentalHealthScore = scores.mentalHealthScore || 0;
+      const TriMobilityScore = scores.TriMobilityScore || 0;
+      const medicationsScore = scores.medicationsScore || 0;
+      const abuseAndTraumaScore = scores.abuseAndTraumaScore || 0;
+      return physicalHealthScore +
+             substanceAbuseScore +
+            mentalHealthScore +
+            TriMobilityScore +
+            medicationsScore +
+            abuseAndTraumaScore;
+    }
   }
 };
 
