@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import { populationBoard as actions } from './module';
+import { connect } from 'react-redux';
 
 import Index from 'grommet-index/components/Index';
 import Article from 'grommet/components/Article';
@@ -125,28 +125,17 @@ class PopulationBoard extends Component {
           emptyMessage={<EmptyList />}
           emptyAddControl={<noscript/>}/>
         {this.state.showDetails && 
-          <PersonDetailsLayer onClose={this._closeLayer} />
+          <PersonDetailsLayer 
+            onClose={this._closeLayer} />
         }
       </Article>
     );
   }
 };
 
-const Query = gql`
-  query TestQuery($userEmail: String!, $id: String!) {
-    user(email: $userEmail) {
-      permissions
-      email
-    }
-    district(id: $id) {
-      member
-      phone
-      email
-    }
-  }
-`;
+export const stateToProps = state => ({
+  ...state
+});
 
-export default graphql(Query, {
-  options: { variables: { userEmail: 'testing.email@email.com', id: '05' } }
-})(PopulationBoard);
+export default connect(stateToProps, actions)(PopulationBoard);
 

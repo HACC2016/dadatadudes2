@@ -10,6 +10,7 @@ const PersonDetailsLayer = ({onClose}) => {
       title="Details"
       compact={false}
       submitLabel="Ok"
+      onSubmit={onClose}
       onClose={onClose}>
 
       <fieldset>    

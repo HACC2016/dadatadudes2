@@ -9,18 +9,28 @@ import Button from 'grommet/components/Button';
 import Header from 'grommet/components/Header';
 import Menu from 'grommet/components/Menu';
 import Box from 'grommet/components/Box';
+import Heading from 'grommet/components/Heading';
 
 export const SidebarNav = ({routes}) =>
   <Sidebar
     full={true}
+    size="small"
     className="dashboard-sidebar"
-    colorIndex="neutral-1">
-    <Box justify="between" direction="column" full={true}>
+    colorIndex="neutral-1-a">
+    <Box 
+      justify="between" 
+      direction="column" 
+      full={true}>
       <Box direction="column">
         <Header
           justify="between"
           pad="medium">
-
+          <Heading 
+            tag="h3" 
+            strong={true}
+            uppercase={true}>
+            Hawaii Homeless
+          </Heading>
         </Header>
 
         <Menu
