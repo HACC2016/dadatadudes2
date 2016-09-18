@@ -1,6 +1,6 @@
 // (C) Copyright 2016 Hewlett Packard Enterprise Development LP
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 
 import CloseIcon from 'grommet/components/icons/base/Close';
 
@@ -40,6 +40,9 @@ export const SidebarNav = ({routes}) =>
           </Link>
           )}
         </Menu>
+        <Box pad="medium">
+          <Button label="Logout" onClick={() => browserHistory.push('/login')}/>
+        </Box>
       </Box>
 
     </Box>
