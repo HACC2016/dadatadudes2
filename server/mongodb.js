@@ -81,7 +81,7 @@ export default function mdbConstructor(mPool) {
       return mPool.collection('districts')
         .find({ county: { $in: counties } })
         .toArray()
-        .then(rows =>
+        .then(rows => 
           orderedFor(rows, counties, 'county', false)
         );
     },

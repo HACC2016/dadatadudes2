@@ -69,7 +69,6 @@ class RiskScore extends Component {
       island = 'Honolulu'
     }
     this.props.refetch({county: `${island}`});
-    // const values = this.state.districts.map(({}) =>)
     this.setState({island});
   }
 
@@ -107,7 +106,7 @@ class RiskScore extends Component {
     return (
       <Article direction="column" pad={{vertical: 'large'}}>
         <Box>
-          <Heading align="center" tag="h4">Islands</Heading>
+          <Heading align="center" tag="h4">Counties</Heading>
           <Box 
             align="center" 
             justify="center">

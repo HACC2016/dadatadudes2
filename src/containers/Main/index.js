@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { compact } from 'lodash';
-import { main as actions } from './module';
 import { connect } from 'react-redux';
 
 import App from 'grommet/components/App';
@@ -55,4 +54,4 @@ export const stateToProps = state => ({
   ...state
 });
 
-export default connect(stateToProps, actions)(Main);
+export default connect(stateToProps)(Main);
