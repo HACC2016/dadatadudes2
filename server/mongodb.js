@@ -14,6 +14,30 @@ export default function mdbConstructor(mPool) {
     });
   };
 
+  const orderedForAverage = (rows, collection, field) => {
+    // return the rows ordered for the collection
+    const inGroupsOfField = _.groupBy(rows, field);
+    return collection.map(element => {
+      const elementArray = inGroupsOfField[element];
+      if (elementArray) {
+        return elementArray.reduce((val, ele) => {
+          if (ele.scores) {
+            const scoreTypes = Object.keys(ele.scores);
+            return val + scoreTypes.reduce((value, type) => {
+              if (typeof ele.scores[type] === 'number') {
+                return ele.scores[type] + value;
+              }
+              return val;
+            }, 0);
+          }
+
+          return val;
+        }, 0) / elementArray.length;
+      }
+      return 0;
+    });
+  };
+
   const mapIdsToObjectIDs = (ids) => (
     ids.map(id => new ObjectID(id))
   );
@@ -23,10 +47,7 @@ export default function mdbConstructor(mPool) {
     addReport(input) {
       return mPool.collection('reports')
         .insertOne(input)
-        .then(r => {
-          console.log(r.ops);
-          return r.ops;
-        });
+        .then(r => r.ops);
     },
 
     getUsersByEmails(emails) {
@@ -38,12 +59,30 @@ export default function mdbConstructor(mPool) {
         );
     },
 
+    getAllDistricts() {
+      return mPool.collection('districts')
+        .find()
+        .toArray()
+        .then(rows =>
+          rows
+        );
+    },
+
     getDistrictsByIds(districtIds) {
       return mPool.collection('districts')
         .find({ districtId: { $in: districtIds } })
         .toArray()
         .then(rows =>
           orderedFor(rows, districtIds, 'districtId', true)
+        );
+    },
+
+    getDistrictsByCounties(counties) {
+      return mPool.collection('districts')
+        .find({ county: { $in: counties } })
+        .toArray()
+        .then(rows =>
+          orderedFor(rows, counties, 'county', false)
         );
     },
 
@@ -64,6 +103,13 @@ export default function mdbConstructor(mPool) {
         .then(rows =>
           orderedFor(rows, ObjectIds, '_id', false)
         );
+    },
+
+    getPersonCountsByDistrictId(districtId) {
+      return mPool.collection('persons')
+        .find({ districtId })
+        .count()
+        .then(count => count);
     },
 
     getPersonsByDistrictIds(districtIds) {
@@ -91,6 +137,15 @@ export default function mdbConstructor(mPool) {
         .toArray()
         .then(rows =>
           rows
+        );
+    },
+
+    getRiskAveragesByDistrictIds(districtIds) {
+      return mPool.collection('assessments')
+        .find({ districtId: { $in: districtIds } }, { scores: 1, districtId: 1 })
+        .toArray()
+        .then(rows =>
+          orderedForAverage(rows, districtIds, 'districtId')
         );
     },
 

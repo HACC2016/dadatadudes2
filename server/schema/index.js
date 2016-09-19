@@ -30,14 +30,21 @@ const QueryType = new GraphQLObjectType({
     },
 
     district: {
-      type: DistrictType,
+      type: new GraphQLList(DistrictType),
       description: 'The city council district, and associated council member.',
       args: {
-        districtId: { type: new GraphQLNonNull(GraphQLString) }
+        districtId: { type: GraphQLString },
+        county: { type: GraphQLString }
       },
-      resolve: (obj, args, { loaders }) => (
-        loaders.districtsByIds.load(args.districtId)
-      )
+      resolve: (obj, args, { mdb, loaders }) => {
+        if (args.districtId) {
+          return loaders.districtsByIds.load(args.districtId);
+        } else if (args.county) {
+          return loaders.districtsByCounties.load(args.county);
+        }
+
+        return mdb.getAllDistricts();
+      }
     },
 
     reports: {
