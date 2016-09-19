@@ -37,7 +37,7 @@ const listDistrictData = graphql(districtQuery, {
       refetch: data.refetch
     }
   },
-  options: { variables: { county: 'Honolulu'}}
+  options: { variables: { county: 'Honolulu'} }
 });
 
 
@@ -114,8 +114,8 @@ class RiskScore extends Component {
             <Menu inline={true} direction="row">
               <Anchor onClick={() => this._selectIsland('Oahu')}>Oahu</Anchor>
               <Anchor onClick={() => this._selectIsland('Maui')}>Maui</Anchor>
-              <Anchor onClick={() => this._selectIsland('Hawaii')}>{'Hawai\'i'}</Anchor>
-              <Anchor onClick={() => this._selectIsland('Kauai')}>{'Kaua\'i'}</Anchor>
+              <Anchor onClick={() => this._selectIsland('Hawaii')}>Hawaii</Anchor>
+              <Anchor onClick={() => this._selectIsland('Kauai')}>Kauai</Anchor>
             </Menu>
           </Box>
           <Box 
