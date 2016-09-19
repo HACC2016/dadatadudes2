@@ -21,33 +21,54 @@ import Axis from 'grommet/components/chart/Axis';
 import AnalyticsIcon from 'grommet/components/icons/base/Analytics';
 import ResourcesIcon from 'grommet/components/icons/base/Resources';
 
+const districtQuery = 
+  gql`
+  query getDistrict($county: String) {
+    district(county: $county) {
+      personCount
+      averageRisk
+    }
+  } `;
+
+const listDistrictData = graphql(districtQuery, {
+  props: ({ data }) => { 
+    return {
+      districtValues: data ? data.district : [],
+      refetch: data.refetch
+    }
+  },
+  options: { variables: { county: 'Honolulu'}}
+});
+
 
 class RiskScore extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      districts: [
-        {count: 55},
-        {count: 34},
-        {count: 87},
-        {count: 33},
-        {count: 23},
-        {count: 95},
-        {count: 59},
-        {count: 36},
-        {count: 86},
-      ],
+      districtValues: [],
       activeIndex: 0,
       values: [],
       chartTitle: '# of Homeless by District',
-      island: 'Oahu'
+      island: 'Oahu',
+      category: 'personCount',
     };
 
     this._onActive = this._onActive.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.districtValues) {
+      const { districtValues } = nextProps;
+      this.setState({districtValues});
+    }
+  }
+
   _selectIsland(island) {
+    if (island === 'Oahu') {
+      island = 'Honolulu'
+    }
+    this.props.refetch({county: `${island}`});
     // const values = this.state.districts.map(({}) =>)
     this.setState({island});
   }
@@ -69,9 +90,18 @@ class RiskScore extends Component {
   }
 
   render() {
-    const { districts, activeIndex, chartTitle, island } = this.state;
+    const { 
+      districtValues, 
+      activeIndex, 
+      chartTitle, 
+      island,
+      category,
+    } = this.state;
+
     const getMaxVal = (arr) => Math.max.apply(Math, arr);
-    const values = districts.map(({count}) => count);
+    const getMinVal = (arr) => Math.min.apply(Math, arr);
+    const values = districtValues.map((val) => val[category]);
+
     return (
       <Article direction="column" pad={{vertical: 'large'}}>
         <Box>
@@ -82,8 +112,8 @@ class RiskScore extends Component {
             <Menu inline={true} direction="row">
               <Anchor onClick={() => this._selectIsland('Oahu')}>Oahu</Anchor>
               <Anchor onClick={() => this._selectIsland('Maui')}>Maui</Anchor>
-              <Anchor onClick={() => this._selectIsland('Hawaii')}>Hawaii</Anchor>
-              <Anchor onClick={() => this._selectIsland('Kauai')}>Kauai</Anchor>
+              <Anchor onClick={() => this._selectIsland('Hawaii')}>{'Hawai\'i'}</Anchor>
+              <Anchor onClick={() => this._selectIsland('Kauai')}>{'Kaua\'i'}</Anchor>
             </Menu>
           </Box>
           <Box 
@@ -131,6 +161,8 @@ class RiskScore extends Component {
               <Bar 
                 colorIndex="accent-1"
                 values={values}
+                min={getMinVal(values)}
+                max={getMaxVal(values)}
                 activeIndex={activeIndex} />
               <HotSpots 
                 count={values.length} 
@@ -144,31 +176,4 @@ class RiskScore extends Component {
   }
 }
 
-// const personsQuery = 
-//   gql`
-//   query {
-//     persons {
-//       _id
-//       firstName
-//       lastName
-//       assessmentIds
-//       assessments {
-//         _id
-//         personId
-//         overallRiskScore
-//         preSurveyScore
-//         historyOfHousingAndHomelessnessScore
-//         risksScore
-//         socializingAndDailyFunctionsScore
-//         wellnessScore
-//       }
-//     }
-//   } `;
-
-// const listPersons = graphql(personsQuery, {
-//   props: ({ data }) => ({ 
-//     response: data ? data : []
-//   })
-// });
-
-export default RiskScore;
+export default listDistrictData(RiskScore);
