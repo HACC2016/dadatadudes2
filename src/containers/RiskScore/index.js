@@ -47,9 +47,9 @@ class RiskScore extends Component {
     this._onActive = this._onActive.bind(this);
   }
 
-  _selectIsland() {
+  _selectIsland(island) {
     // const values = this.state.districts.map(({}) =>)
-    this.setState({values: []});
+    this.setState({island});
   }
 
   _selectCategory(category) {
@@ -80,10 +80,10 @@ class RiskScore extends Component {
             align="center" 
             justify="center">
             <Menu inline={true} direction="row">
-              <Anchor onClick={() => this._selectIsland('oahu')}>Oahu</Anchor>
-              <Anchor onClick={() => this._selectIsland('maui')}>Maui</Anchor>
-              <Anchor onClick={() => this._selectIsland('hawaii')}>Hawaii</Anchor>
-              <Anchor onClick={() => this._selectIsland('kauai')}>Kauai</Anchor>
+              <Anchor onClick={() => this._selectIsland('Oahu')}>Oahu</Anchor>
+              <Anchor onClick={() => this._selectIsland('Maui')}>Maui</Anchor>
+              <Anchor onClick={() => this._selectIsland('Hawaii')}>Hawaii</Anchor>
+              <Anchor onClick={() => this._selectIsland('Kauai')}>Kauai</Anchor>
             </Menu>
           </Box>
           <Box 

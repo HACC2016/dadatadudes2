@@ -13,13 +13,14 @@ const PersonRecord = ({
     firstName,
     lastName,
     assessmentIds,
+    age,
+    districtId,
     openLayer,
   }
 }) =>
   <ListItem
     key={`activity-list-item-${index}`}
     className="activity-list-item"
-    align="start"
     justify="between"
     separator="horizontal"
     onClick={() => openLayer(_id, assessmentIds)}
@@ -30,12 +31,21 @@ const PersonRecord = ({
     }}>
 
     <Box
+      justify="between"
       direction="row"
-      pad={{between: 'small'}}>
+      >
       <StatusIcon value={assessmentIds ? 'ok' : 'critical'} />
       <Box tag="span" pad={{horizontal: 'medium'}}>
-        {`${firstName} ${lastName}`}
+        {`Name: ${firstName} ${lastName}`}
       </Box>
+    </Box>
+
+    <Box tag="span" pad={{horizontal: 'medium'}}>
+      {`Age: ${age}`}
+    </Box>
+
+    <Box> 
+      {`District: ${districtId}`}
     </Box>
 
   </ListItem>;

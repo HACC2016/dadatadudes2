@@ -169,7 +169,9 @@ const personsQuery =
     persons {
       _id
       firstName
-      lastName
+      lastName,
+      age,
+      districtId,
       assessmentIds
       assessments {
         _id
