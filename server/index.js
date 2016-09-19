@@ -35,11 +35,13 @@ MongoClient.connect(process.env.MONGO_URL, (err, mPool) => {
     const loaders = {
       usersByEmails: new DataLoader(mdb.getUsersByEmails),
       districtsByIds: new DataLoader(mdb.getDistrictsByIds),
+      districtsByCounties: new DataLoader(mdb.getDistrictsByCounties),
       reportsByDistrictIds: new DataLoader(mdb.getReportsByDistrictIds),
       personsByDistrictIds: new DataLoader(mdb.getPersonsByDistrictIds),
       personsByReportIds: new DataLoader(mdb.getPersonsByReportIds),
       personsByIds: new DataLoader(mdb.getPersonsByIds),
-      assessmentsByPersonIds: new DataLoader(mdb.getAssessmentsByPersonIds)
+      assessmentsByPersonIds: new DataLoader(mdb.getAssessmentsByPersonIds),
+      riskAveragesByDistrictIds: new DataLoader(mdb.getRiskAveragesByDistrictIds)
     };
 
     graphqlHTTP(({

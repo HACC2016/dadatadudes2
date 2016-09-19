@@ -75,6 +75,7 @@ function generatePerson(reportId) {
 function generateAssessment(person) {
   return {
     personId: person._id,
+    districtId: person.districtId,
     generalDemographics: {
       age: person.age,
       consentOfParticipation: casual.coin_flip,

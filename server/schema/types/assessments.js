@@ -174,6 +174,7 @@ const AssessmentType = new GraphQLObjectType({
   fields: () => ({
     _id: { type: GraphQLID },
     personId: { type: GraphQLString },
+    districtId: { type: GraphQLString },
     overallRiskScore: {
       type: GraphQLInt,
       resolve: ({ scores }) => {
