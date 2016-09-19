@@ -74,13 +74,15 @@ class RiskScore extends Component {
   }
 
   _selectCategory(category) {
-    if (category === 'numberOf') {
+    if (category === 'personCount') {
       this.setState({
-        chartTitle: '# of Homeless by District'
+        chartTitle: '# of Homeless by District',
+        category,
       });
     } else {
       this.setState({
-        chartTitle: 'Average Risk Score by District'
+        chartTitle: 'Average Risk Score by District',
+        category
       });
     }
   }
@@ -97,7 +99,7 @@ class RiskScore extends Component {
       island,
       category,
     } = this.state;
-
+    
     const getMaxVal = (arr) => Math.max.apply(Math, arr);
     const getMinVal = (arr) => Math.min.apply(Math, arr);
     const values = districtValues.map((val) => val[category]);
@@ -122,12 +124,12 @@ class RiskScore extends Component {
             pad={{horizontal: 'large'}}>
             <Button 
               accent={true}
-              onClick={() => this._selectCategory('numberOf')}
+              onClick={() => this._selectCategory('personCount')}
               label="Number of Homeless" 
               icon={<ResourcesIcon />} />
             <Button 
               accent={true}
-              onClick={() => this._selectCategory('riskScore')}
+              onClick={() => this._selectCategory('averageRisk')}
               label="Risk Score Percentage" 
               icon={<AnalyticsIcon />} />
           </Box>
