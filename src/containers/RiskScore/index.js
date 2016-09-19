@@ -6,13 +6,18 @@ import Article from 'grommet/components/Article';
 import Box from 'grommet/components/Box';
 import Menu from 'grommet/components/Menu';
 import Header from 'grommet/components/Header';
+import Value from 'grommet/components/Value';
 import Heading from 'grommet/components/Heading';
 import Anchor from 'grommet/components/Anchor';
 import Chart from 'grommet/components/chart/Chart';
 import Layers from 'grommet/components/chart/Layers';
 import Base from 'grommet/components/chart/Base';
 import Bar from 'grommet/components/chart/Bar';
+import MarkerLabel from 'grommet/components/chart/MarkerLabel';
+import Marker from 'grommet/components/chart/Marker';
+import HotSpots from 'grommet/components/chart/HotSpots';
 import Button from 'grommet/components/Button';
+import Axis from 'grommet/components/chart/Axis';
 import AnalyticsIcon from 'grommet/components/icons/base/Analytics';
 import ResourcesIcon from 'grommet/components/icons/base/Resources';
 
@@ -22,21 +27,44 @@ class RiskScore extends Component {
     super(props);
 
     this.state = {
-      
+      districts: [
+        {count: 55},
+        {count: 34},
+        {count: 87},
+        {count: 33},
+        {count: 23},
+        {count: 95},
+        {count: 59},
+        {count: 36},
+        {count: 86},
+      ],
+      activeIndex: 0,
+      values: [],
+      chartTitle: '# of Homeless by District'
     };
+
+    this._onActive = this._onActive.bind(this);
   }
 
   _selectIsland() {
-
+    // const values = this.state.districts.map(({}) =>)
+    this.setState({values: []});
   }
 
   _selectCategory() {
 
   }
 
+  _onActive(activeIndex) {
+    this.setState({activeIndex});
+  }
+
   render() {
+    const { districts, activeIndex, chartTitle } = this.state;
+    const getMaxVal = (arr) => Math.max.apply(Math, arr);
+    const values = districts.map(({count}) => count);
     return (
-      <Article direction="column" justify="start">
+      <Article direction="column" pad={{vertical: 'large'}}>
         <Box>
           <Heading align="center" tag="h4">Islands</Heading>
           <Box 
@@ -65,21 +93,40 @@ class RiskScore extends Component {
               icon={<AnalyticsIcon />} />
           </Box>
         </Box>
-        <Box>
+        <Box pad={{vertical: 'large'}}>
+          <Heading tag="h3" align="center">
+            {chartTitle}
+          </Heading>
+        </Box>
+        <Box pad={{horizontal: 'medium', vertical: 'large'}}>
           <Chart full={true}>
-            {/*<Axis 
+            <MarkerLabel 
+              count={values.length} 
+              index={activeIndex} 
+              label={<Value value={values[activeIndex]} />} />
+            <Axis 
               vertical={true} 
               count={4} 
               labels={[
-                {index: 3, label: `${max(values)} ${unit}`},
-                {index: 1, label: `${max(values) / 2} ${unit}`}
+                {index: 3, label: `${getMaxVal(values)}`},
+                {index: 1, label: `${getMaxVal(values) / 2}`}
               ]} 
-              ticks={true} />*/}
-            <Base height="small" width="full"/>
+              ticks={true} />
+            <Base height="medium" width="full"/>
             <Layers>
+              <Marker 
+                vertical={true} 
+                colorIndex="graph-2" 
+                count={values.length} 
+                index={activeIndex} />
               <Bar 
                 colorIndex="accent-1"
-                values={[55, 46, 59]} />
+                values={values}
+                activeIndex={activeIndex} />
+              <HotSpots 
+                count={values.length} 
+                activeIndex={activeIndex} 
+                onActive={this._onActive} />
             </Layers>
           </Chart>
         </Box>
