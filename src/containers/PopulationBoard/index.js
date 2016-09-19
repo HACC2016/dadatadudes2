@@ -173,6 +173,8 @@ const personsQuery =
       age,
       gender,
       ethnicity,
+      employmentStatus,
+      familyMembersChildren,
       districtId,
       assessmentIds
       assessments {

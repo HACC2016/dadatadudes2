@@ -16,6 +16,8 @@ const PersonRecord = ({
     age,
     gender,
     ethnicity,
+    employmentStatus,
+    familyMembersChildren,
     districtId,
     openLayer
   }
@@ -52,6 +54,13 @@ const PersonRecord = ({
 
     <Box tag="span" pad={{horizontal: 'medium'}}>
       {`Ethnicity: ${ethnicity}`}
+    </Box>
+    <Box tag="span" pad={{horizontal: 'medium'}}>
+      {`Currently Employed: ${employmentStatus}`}
+    </Box>
+
+    <Box tag="span" pad={{horizontal: 'medium'}}>
+      {`Children: ${(familyMembersChildren)}`}
     </Box>
 
     <Box>
