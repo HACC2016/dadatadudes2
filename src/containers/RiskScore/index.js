@@ -40,7 +40,8 @@ class RiskScore extends Component {
       ],
       activeIndex: 0,
       values: [],
-      chartTitle: '# of Homeless by District'
+      chartTitle: '# of Homeless by District',
+      island: 'Oahu'
     };
 
     this._onActive = this._onActive.bind(this);
@@ -51,8 +52,16 @@ class RiskScore extends Component {
     this.setState({values: []});
   }
 
-  _selectCategory() {
-
+  _selectCategory(category) {
+    if (category === 'numberOf') {
+      this.setState({
+        chartTitle: '# of Homeless by District'
+      });
+    } else {
+      this.setState({
+        chartTitle: 'Average Risk Score by District'
+      });
+    }
   }
 
   _onActive(activeIndex) {
@@ -60,7 +69,7 @@ class RiskScore extends Component {
   }
 
   render() {
-    const { districts, activeIndex, chartTitle } = this.state;
+    const { districts, activeIndex, chartTitle, island } = this.state;
     const getMaxVal = (arr) => Math.max.apply(Math, arr);
     const values = districts.map(({count}) => count);
     return (
@@ -95,10 +104,10 @@ class RiskScore extends Component {
         </Box>
         <Box pad={{vertical: 'large'}}>
           <Heading tag="h3" align="center">
-            {chartTitle}
+            {chartTitle} <strong>{`(${island})`}</strong>
           </Heading>
         </Box>
-        <Box pad={{horizontal: 'medium', vertical: 'large'}}>
+        <Box pad={{horizontal: 'medium', vertical: 'small'}}>
           <MarkerLabel 
             count={values.length} 
             index={activeIndex} 
