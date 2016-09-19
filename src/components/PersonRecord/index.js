@@ -14,8 +14,10 @@ const PersonRecord = ({
     lastName,
     assessmentIds,
     age,
+    gender,
+    ethnicity,
     districtId,
-    openLayer,
+    openLayer
   }
 }) =>
   <ListItem
@@ -44,7 +46,15 @@ const PersonRecord = ({
       {`Age: ${age}`}
     </Box>
 
-    <Box> 
+    <Box tag="span" pad={{horizontal: 'medium'}}>
+      {`Gender: ${gender}`}
+    </Box>
+
+    <Box tag="span" pad={{horizontal: 'medium'}}>
+      {`Ethnicity: ${ethnicity}`}
+    </Box>
+
+    <Box>
       {`District: ${districtId}`}
     </Box>
 

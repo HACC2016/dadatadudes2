@@ -70,7 +70,7 @@ class PopulationBoard extends Component {
       } else {
         matchesFilter = true;
       }
-      return matchesSearch && matchesFilter;     
+      return matchesSearch && matchesFilter;
     });
     const sortType = sort.split(':')[0];
     this.setState({result: {
@@ -112,7 +112,7 @@ class PopulationBoard extends Component {
   }
 
   _findPerson(id) {
-    const { 
+    const {
       response: { persons },
     } = this.props;
     return persons.find(({_id}) => _id === this.state.id);
@@ -130,14 +130,14 @@ class PopulationBoard extends Component {
     return (
       <Article>
         {this.state.notification &&
-          <Notification 
+          <Notification
             message="No Assessment Exists for this Person"
             closer={true}
             onClose={this._closeLayer}
             status="warning"
           />
         }
-        <Index 
+        <Index
           view={{medium: 'list', small: 'tiles'}}
           fill={false}
           flush={false}
@@ -153,8 +153,8 @@ class PopulationBoard extends Component {
           label="Population Board"
           emptyMessage={<EmptyList />}
           emptyAddControl={<noscript/>}/>
-        {this.state.showDetails && 
-          <PersonDetailsLayer 
+        {this.state.showDetails &&
+          <PersonDetailsLayer
             personDetails={this._findPerson()}
             onClose={this._closeLayer} />
         }
@@ -163,7 +163,7 @@ class PopulationBoard extends Component {
   }
 };
 
-const personsQuery = 
+const personsQuery =
   gql`
   query {
     persons {
@@ -171,6 +171,8 @@ const personsQuery =
       firstName
       lastName,
       age,
+      gender,
+      ethnicity,
       districtId,
       assessmentIds
       assessments {
@@ -187,7 +189,7 @@ const personsQuery =
   } `;
 
 const listPersons = graphql(personsQuery, {
-  props: ({ data }) => ({ 
+  props: ({ data }) => ({
     response: data ? data : []
   })
 });
