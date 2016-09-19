@@ -46,15 +46,15 @@ const seeder = require('./random-seeder');
       const districtInsert = yield districts.insertMany(councilDistricts);
       assert.equal(28, districtInsert.insertedCount);
 
-      const reportInsert = yield reports.insertMany(seeder.generateReports(150));
-      assert.equal(150, reportInsert.insertedCount);
+      const reportInsert = yield reports.insertMany(seeder.generateReports(500));
+      assert.equal(500, reportInsert.insertedCount);
 
-      const personInsert = yield persons.insertMany(seeder.generatePersons(60, reportInsert.insertedIds));
-      assert.equal(60, personInsert.insertedCount);
+      const personInsert = yield persons.insertMany(seeder.generatePersons(1200, reportInsert.insertedIds));
+      assert.equal(1200, personInsert.insertedCount);
 
-      const assessmentObjects = seeder.generateAssessments(35, personInsert.ops);
+      const assessmentObjects = seeder.generateAssessments(170, personInsert.ops);
       const assessmentInsert = yield assessments.insertMany(assessmentObjects);
-      assert.equal(35, assessmentInsert.insertedCount);
+      assert.equal(170, assessmentInsert.insertedCount);
 
       yield assessmentObjects.map(assessment => {
         const personUpdate = persons.updateOne({ _id: assessment.personId }, {
