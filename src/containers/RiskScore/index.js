@@ -27,6 +27,7 @@ const districtQuery =
     district(county: $county) {
       personCount
       averageRisk
+      districtId
     }
   } `;
 
@@ -102,9 +103,13 @@ class RiskScore extends Component {
     const getMaxVal = (arr) => Math.max.apply(Math, arr);
     const getMinVal = (arr) => Math.min.apply(Math, arr);
     const values = districtValues.map((val) => val[category]);
+    const labels = districtValues.map((val, index) => ({
+      index, 
+      label: val.districtId.split('-').pop()
+    }));
 
     return (
-      <Article direction="column" pad={{vertical: 'large'}}>
+      <Article pad={{vertical: 'large'}}>
         <Box>
           <Heading align="center" tag="h4">Counties</Heading>
           <Box 
@@ -138,7 +143,7 @@ class RiskScore extends Component {
             {chartTitle} <strong>{`(${island})`}</strong>
           </Heading>
         </Box>
-        <Box pad={{horizontal: 'medium', vertical: 'small'}}>
+        <Box pad={{horizontal: 'large'}}>
           <MarkerLabel 
             count={values.length} 
             index={activeIndex} 
@@ -171,6 +176,10 @@ class RiskScore extends Component {
                 onActive={this._onActive} />
             </Layers>
           </Chart>
+          <Axis  
+            count={labels.length} 
+            labels={labels} 
+            ticks={true} />
         </Box>
       </Article>
     );
