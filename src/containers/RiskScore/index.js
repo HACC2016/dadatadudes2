@@ -99,11 +99,11 @@ class RiskScore extends Component {
           </Heading>
         </Box>
         <Box pad={{horizontal: 'medium', vertical: 'large'}}>
+          <MarkerLabel 
+            count={values.length} 
+            index={activeIndex} 
+            label={<Value value={values[activeIndex]} />} />
           <Chart full={true}>
-            <MarkerLabel 
-              count={values.length} 
-              index={activeIndex} 
-              label={<Value value={values[activeIndex]} />} />
             <Axis 
               vertical={true} 
               count={4} 
