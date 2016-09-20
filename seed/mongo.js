@@ -46,11 +46,11 @@ const seeder = require('./random-seeder');
       const districtInsert = yield districts.insertMany(councilDistricts);
       assert.equal(28, districtInsert.insertedCount);
 
-      const reportInsert = yield reports.insertMany(seeder.generateReports(500));
-      assert.equal(500, reportInsert.insertedCount);
+      const reportInsert = yield reports.insertMany(seeder.generateReports(200));
+      assert.equal(200, reportInsert.insertedCount);
 
-      const personInsert = yield persons.insertMany(seeder.generatePersons(1200, reportInsert.insertedIds));
-      assert.equal(1200, personInsert.insertedCount);
+      const personInsert = yield persons.insertMany(seeder.generatePersons(300, reportInsert.insertedIds));
+      assert.equal(300, personInsert.insertedCount);
 
       const assessmentObjects = seeder.generateAssessments(170, personInsert.ops);
       const assessmentInsert = yield assessments.insertMany(assessmentObjects);

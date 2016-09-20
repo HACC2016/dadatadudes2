@@ -12,7 +12,7 @@ import PersonRecord from '../../components/PersonRecord';
 import EmptyList from '../../components/EmptyList';
 import PersonDetailsLayer from '../../components/PersonDetailsLayer';
 
-const personsQuery = 
+const personsQuery =
   gql`
   query {
     persons {
@@ -20,6 +20,10 @@ const personsQuery =
       firstName
       lastName,
       age,
+      gender
+      ethnicity
+      employmentStatus
+      familyMembersChildren
       districtId,
       assessmentIds
       assessments {
@@ -36,7 +40,7 @@ const personsQuery =
   } `;
 
 const listPersons = graphql(personsQuery, {
-  props: ({ data }) => ({ 
+  props: ({ data }) => ({
     persons: data.persons ? data.persons : [],
     fetchMore: data.fetchMore,
   })
