@@ -15,7 +15,7 @@ import PersonDetailsLayer from '../../components/PersonDetailsLayer';
 const personsQuery = 
   gql`
   query {
-    persons(offset: 100, limit: 50) {
+    persons {
       _id
       firstName
       lastName,
