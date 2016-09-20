@@ -3,6 +3,7 @@ import {
   GraphQLSchema,
   GraphQLNonNull,
   GraphQLList,
+  GraphQLInt,
   GraphQLObjectType
 } from 'graphql';
 
@@ -63,13 +64,19 @@ const QueryType = new GraphQLObjectType({
       description: 'Description and information of a homeless individual.',
       args: {
         districtId: { type: GraphQLString },
-        _id: { type: GraphQLString }
+        _id: { type: GraphQLString },
+        offset: { type: GraphQLInt },
+        limit: { type: GraphQLInt }
       },
       resolve: (obj, args, { mdb, loaders }) => {
         if (args.districtId) {
           return loaders.personsByDistrictIds.load(args.districtId);
         } else if (args._id) {
           return loaders.personsByIds.load(args._id);
+        }
+
+        if (args.offset && args.limit) {
+          return mdb.getAllPersons(args.offset, args.limit);
         }
 
         return mdb.getAllPersons();
