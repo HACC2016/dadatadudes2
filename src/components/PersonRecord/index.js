@@ -60,7 +60,7 @@ const PersonRecord = ({
     </Box>
 
     <Box tag="span" pad={{horizontal: 'medium'}}>
-      {`Children: ${(familyMembersChildren)}`}
+      {`Children: ${familyMembersChildren}`}
     </Box>
 
     <Box>
