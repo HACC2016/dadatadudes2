@@ -12,10 +12,42 @@ import PersonRecord from '../../components/PersonRecord';
 import EmptyList from '../../components/EmptyList';
 import PersonDetailsLayer from '../../components/PersonDetailsLayer';
 
+const personsQuery = 
+  gql`
+  query {
+    persons(offset: 100, limit: 50) {
+      _id
+      firstName
+      lastName,
+      age,
+      districtId,
+      assessmentIds
+      assessments {
+        _id
+        personId
+        overallRiskScore
+        preSurveyScore
+        historyOfHousingAndHomelessnessScore
+        risksScore
+        socializingAndDailyFunctionsScore
+        wellnessScore
+      }
+    }
+  } `;
+
+const listPersons = graphql(personsQuery, {
+  props: ({ data: { persons, fetchMore, feed } }) => ({ 
+    persons: persons ? persons : [],
+    fetchMore: fetchMore,
+    offset: feed,
+  })
+});
+
 class PopulationBoard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      page: 1;
       showDetails: false,
       filter: { assessmentId: [] },
       sort: 'lastName:asc',
@@ -35,27 +67,32 @@ class PopulationBoard extends Component {
     this._closeLayer      = this._closeLayer.bind(this);
     this._openLayer       = this._openLayer.bind(this);
     this._findPerson      = this._findPerson.bind(this);
+    this._onMore          = this._onMore.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.response) {
+    if (nextProps.persons) {
       this.setState({
         result: {
-          items: nextProps.response.persons,
+          items: nextProps.persons,
           start: 0,
-          count: nextProps.response.persons.length,
-          total: nextProps.response.persons.length,
-          unfilteredTotal: nextProps.response.persons.length,
+          count: nextProps.persons.length,
+          total: nextProps.persons.length,
+          unfilteredTotal: nextProps.persons.length,
         },
         personsList: {
-          items: nextProps.response.persons,
+          items: nextProps.persons,
           start: 0,
-          count: nextProps.response.persons.length,
-          total: nextProps.response.persons.length,
-          unfilteredTotal: nextProps.response.persons.length,
+          count: nextProps.persons.length,
+          total: nextProps.persons.length,
+          unfilteredTotal: nextProps.persons.length,
         }
       });
     }
+  }
+
+  _onMore() {
+    // this.props.fetchMore({});
   }
 
   _handleFiltering() {
@@ -149,7 +186,7 @@ class PopulationBoard extends Component {
           data={data}
           filter={this.state.filter}
           sort={this.state.sort}
-          onMore={() => {}}
+          onMore={this._onMore}
           label="Population Board"
           emptyMessage={<EmptyList />}
           emptyAddControl={<noscript/>}/>
@@ -162,34 +199,5 @@ class PopulationBoard extends Component {
     );
   }
 };
-
-const personsQuery = 
-  gql`
-  query {
-    persons {
-      _id
-      firstName
-      lastName,
-      age,
-      districtId,
-      assessmentIds
-      assessments {
-        _id
-        personId
-        overallRiskScore
-        preSurveyScore
-        historyOfHousingAndHomelessnessScore
-        risksScore
-        socializingAndDailyFunctionsScore
-        wellnessScore
-      }
-    }
-  } `;
-
-const listPersons = graphql(personsQuery, {
-  props: ({ data }) => ({ 
-    response: data ? data : []
-  })
-});
 
 export default listPersons(PopulationBoard);
