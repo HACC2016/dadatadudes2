@@ -36,10 +36,9 @@ const personsQuery =
   } `;
 
 const listPersons = graphql(personsQuery, {
-  props: ({ data: { persons, fetchMore, feed } }) => ({ 
-    persons: persons ? persons : [],
-    fetchMore: fetchMore,
-    offset: feed,
+  props: ({ data }) => ({ 
+    persons: data.persons ? data.persons : [],
+    fetchMore: data.fetchMore,
   })
 });
 
@@ -47,7 +46,6 @@ class PopulationBoard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 1;
       showDetails: false,
       filter: { assessmentId: [] },
       sort: 'lastName:asc',
