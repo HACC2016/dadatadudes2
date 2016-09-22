@@ -154,8 +154,6 @@ class PopulationBoard extends Component {
   }
 
   render() {
-    // TODO: Remove this
-    const riskScore = 6;
     const data = {
       ...this.state.result,
       items: this.state.result.items.map((person) => {
