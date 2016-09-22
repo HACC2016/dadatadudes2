@@ -5,6 +5,7 @@ import { browserHistory } from 'react-router';
 import StatusIcon from 'grommet/components/icons/Status';
 import ListItem from 'grommet/components/ListItem';
 import Box from 'grommet/components/Box';
+import TableRow from 'grommet/components/TableRow';
 
 const PersonRecord = ({
   index,
@@ -22,51 +23,38 @@ const PersonRecord = ({
     openLayer
   }
 }) =>
-  <ListItem
-    key={`activity-list-item-${index}`}
-    className="activity-list-item"
-    justify="between"
-    separator="horizontal"
-    onClick={() => openLayer(_id, assessmentIds)}
-    pad={{
-      horizontal: 'large',
-      vertical: 'medium',
-      between: 'medium'
-    }}>
+    <TableRow
+      key={`activity-list-item-${index}`}
+      onClick={() => openLayer(_id, assessmentIds)}>
 
-    <Box
-      justify="between"
-      direction="row"
-      >
-      <StatusIcon value={assessmentIds ? 'ok' : 'critical'} />
-      <Box tag="span" pad={{horizontal: 'medium'}}>
-        {`Name: ${firstName} ${lastName}`}
-      </Box>
-    </Box>
+      <td>
+        <StatusIcon value={assessmentIds ? 'ok' : 'critical'} />
+      </td>
 
-    <Box tag="span" pad={{horizontal: 'medium'}}>
-      {`Age: ${age}`}
-    </Box>
+      <td>
+        {`${firstName} ${lastName}`}
+      </td>
 
-    <Box tag="span" pad={{horizontal: 'medium'}}>
-      {`Gender: ${gender}`}
-    </Box>
+      <td>
+        {age}
+      </td>
 
-    <Box tag="span" pad={{horizontal: 'medium'}}>
-      {`Ethnicity: ${ethnicity}`}
-    </Box>
-    <Box tag="span" pad={{horizontal: 'medium'}}>
-      {`Currently Employed: ${employmentStatus}`}
-    </Box>
+      <td>
+        {gender}
+      </td>
 
-    <Box tag="span" pad={{horizontal: 'medium'}}>
-      {`Children: ${familyMembersChildren}`}
-    </Box>
+      <td>
+        {ethnicity}
+      </td>
 
-    <Box>
-      {`District: ${districtId}`}
-    </Box>
+      <td>
+        {employmentStatus ? 'Employed' : 'Unemployed'}
+      </td>
 
-  </ListItem>;
+      <td>
+        {districtId}
+      </td>
+
+    </TableRow>;
 
 export default PersonRecord;

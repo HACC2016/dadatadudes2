@@ -15,7 +15,7 @@ import PersonDetailsLayer from '../../components/PersonDetailsLayer';
 const personsQuery =
   gql`
   query {
-    persons {
+    persons(offset: 0, limit: 50) {
       _id
       firstName
       lastName,
@@ -94,7 +94,8 @@ class PopulationBoard extends Component {
   }
 
   _onMore() {
-    // this.props.fetchMore({});
+    console.log('hello', this.props);
+    this.props.fetchMore({variables: {offset: 50, limit: 50}});
   }
 
   _handleFiltering() {
@@ -151,9 +152,7 @@ class PopulationBoard extends Component {
   }
 
   _findPerson(id) {
-    const {
-      response: { persons },
-    } = this.props;
+    const {persons} = this.props;
     return persons.find(({_id}) => _id === this.state.id);
   }
 
@@ -175,7 +174,7 @@ class PopulationBoard extends Component {
           />
         }
         <Index
-          view={{medium: 'list', small: 'tiles'}}
+          view={{medium: 'table', small: 'tiles'}}
           fill={false}
           flush={false}
           onSort={this._onSort}
