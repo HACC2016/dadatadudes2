@@ -177,6 +177,7 @@ class PopulationBoard extends Component {
         <Index
           view={{medium: 'table', small: 'tiles'}}
           fill={false}
+          selectable={true}
           flush={false}
           onSort={this._onSort}
           onFilter={this._onFilter}

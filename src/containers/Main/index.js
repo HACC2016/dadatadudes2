@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { compact } from 'lodash';
-import { connect } from 'react-redux';
 
 import App from 'grommet/components/App';
 import Split from 'grommet/components/Split';
@@ -8,10 +7,6 @@ import Split from 'grommet/components/Split';
 import SideBarNav from '../../components/SideBarNav';
 
 class Main extends Component {
-  componentWillMount() {
-  	// TODO: Add auth
-  }
-
   render() {
     const { 
       children,
@@ -40,7 +35,7 @@ class Main extends Component {
           fixed={true}
           flex="right"
           priority="right">
-
+ 
           <SideBarNav routes={routes()} />
 
           {children}
@@ -50,8 +45,4 @@ class Main extends Component {
   }
 }
 
-export const stateToProps = state => ({
-  ...state
-});
-
-export default connect(stateToProps)(Main);
+export default Main;
