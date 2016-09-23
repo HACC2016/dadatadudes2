@@ -37,7 +37,7 @@ const seeder = require('./random-seeder');
       const assessments = db.collection('assessments');
 
       const userInsert = yield users.insert({
-        email: 'testing.email@email.com',
+        email: "brock808@thisEmail.com",
         role: 'admin',
         permissions: ['create', 'delete']
       });
