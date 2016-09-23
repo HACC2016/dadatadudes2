@@ -19,6 +19,7 @@ export default (
     <Route path="/">
       <Route path="hero" component={Hero} />    
       <Route component={Main}>	
+        <Route path="login" component={Login} />
         <Route path="dashboard" component={PopulationBoard} />
         <Route path="risk-score" component={RiskScore} />
       </Route>

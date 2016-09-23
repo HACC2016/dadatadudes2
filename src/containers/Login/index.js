@@ -34,7 +34,7 @@ class Login extends Component {
       }
     }) 
     .then((response) => response.json())
-    .then({data}) => {
+    .then(({data}) => {
       localStorage.set('userId', data.userId);
       browserHistory.push('/dashboard');
     })
