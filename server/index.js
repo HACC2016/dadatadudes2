@@ -31,9 +31,20 @@ MongoClient.connect(process.env.MONGO_URL, (err, mPool) => {
   assert.equal(err, null);
   const mdb = mdbConstructor(mPool);
 
-  app.use('/graphql', bodyParser.json(), (req, res) => {
+  app.post('/login', (req, res) => {
+    if (req.body.email) {
+      const user = mdb.getUserByEmail(req.body.email);
+
+      if (user) {
+        return res.sendStatus(200).end();
+      }
+    }
+
+    return res.sendStatus(403).end();
+  });
+
+  app.use('/graphql', (req, res) => {
     const loaders = {
-      usersByEmails: new DataLoader(mdb.getUsersByEmails),
       districtsByIds: new DataLoader(mdb.getDistrictsByIds),
       districtsByCounties: new DataLoader(mdb.getDistrictsByCounties),
       reportsByDistrictIds: new DataLoader(mdb.getReportsByDistrictIds),
