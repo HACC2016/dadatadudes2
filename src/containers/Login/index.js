@@ -26,21 +26,25 @@ class Login extends Component {
     if (!username || !password) {
      return this.setState({errors: ['Email and Password are Required']});
     }
-    return fetch(loginUrl, {
-      method: 'post',
-      body: {
-        email: username,
-        password: password,
-      }
-    }) 
-    .then((response) => response.json())
-    .then(({data}) => {
-      localStorage.set('userId', data.userId);
-      browserHistory.push('/dashboard');
-    })
-    .catch(err => {
-      console.error(err, 'error');
-    });
+    //Remove
+    localStorage.setItem('userId', 2);
+    browserHistory.push('/dashboard');
+
+    // return fetch(loginUrl, {
+    //   method: 'post',
+    //   body: {
+    //     email: username,
+    //     password: password,
+    //   }
+    // }) 
+    // .then((response) => response.json())
+    // .then(({data}) => {
+    //   localStorage.set('userId', data.userId);
+    //   browserHistory.push('/dashboard');
+    // })
+    // .catch(err => {
+    //   console.error(err, 'error');
+    // });
   }
 
   render() {
