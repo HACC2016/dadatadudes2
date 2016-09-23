@@ -5,6 +5,7 @@ import DataLoader from 'dataloader';
 import graphqlHTTP from 'express-graphql';
 import assert from 'assert';
 import { MongoClient } from 'mongodb';
+import cors from 'cors';
 import path from 'path';
 import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
@@ -20,6 +21,7 @@ const port = process.env.DEV_APP_PORT || process.env.PORT;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
 if (!DEBUG) {
   app.use(express.static(process.env.PUBLIC_DIR, {
