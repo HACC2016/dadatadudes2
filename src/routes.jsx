@@ -1,5 +1,4 @@
 import React from 'react';
-import { API_SERVER } from './config';
 import { Route, Redirect, IndexRoute, browserHistory } from 'react-router';
 import Main from './containers/Main';
 import Login from './containers/Login';
