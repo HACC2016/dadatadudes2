@@ -7,6 +7,21 @@ import Split from 'grommet/components/Split';
 import SideBarNav from '../../components/SideBarNav';
 
 class Main extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isAuthenticated: false
+    }
+  }
+
+  componentWillMount() {
+    const user = localStorage.getItem('userId');
+    if (user) {
+      return this.setState({isAuthenticated: true});
+    }
+    this.setState({isAuthenticated: false});
+  }
+
   render() {
     const { 
       children,
@@ -28,6 +43,10 @@ class Main extends Component {
         return label ? {...link, isDisabled: true} : false;
       }));
     };
+    let sidebar = null;
+    if (this.state.isAuthenticated) {
+      sidebar = <SideBarNav routes={routes()} />;
+    }
     return (
       <App centered={false}>
         <Split
@@ -35,8 +54,8 @@ class Main extends Component {
           fixed={true}
           flex="right"
           priority="right">
- 
-          <SideBarNav routes={routes()} />
+
+          {sidebar}
 
           {children}
         </Split>

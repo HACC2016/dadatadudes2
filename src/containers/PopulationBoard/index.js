@@ -95,7 +95,6 @@ class PopulationBoard extends Component {
   }
 
   _onMore() {
-    console.log('hello', this.props);
     this.props.fetchMore({variables: {offset: 50, limit: 50}});
   }
 
@@ -104,10 +103,10 @@ class PopulationBoard extends Component {
     const filtered = personsList.items.filter(person => {
       const matchesSearch = person.lastName.toLowerCase().includes(query.toLowerCase());
       let matchesFilter;
-      if (filter.assessmentIds[0] === 'yes') {
-        matchesFilter = Array.isArray(person.assessmentIds);
-      } else if (filter.assessmentIds[0] === 'no') {
-        matchesFilter = !person.assessmentIds;
+      if (filter.assessmentId[0] === 'yes') {
+        matchesFilter = Array.isArray(person.assessmentId);
+      } else if (filter.assessmentId[0] === 'no') {
+        matchesFilter = !person.assessmentId;
       } else {
         matchesFilter = true;
       }

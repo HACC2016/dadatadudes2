@@ -2,11 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import { login as actions } from './module';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
+import { API_SERVER } from '../../../config'; 
 
 import Article from 'grommet/components/Article';
 import Section from 'grommet/components/Section';
 import LoginForm from 'grommet/components/LoginForm';
 import Image from 'grommet/components/Image';
+
+const loginUrl = `${API_SERVER}/login`;
 
 class Login extends Component {
   constructor(props) {
@@ -21,20 +24,30 @@ class Login extends Component {
   _onSubmit({username, password}) {
     this.setState({errors: []});
     if (!username || !password) {
-     return this.setState({errors: ['Username and Password are Required']});
+     return this.setState({errors: ['Email and Password are Required']});
     }
-    browserHistory.push('/dashboard'); // Remove once redux is implemented
-    // return this.props.login() 
-    //   .then(() => {
+    //Remove
+    localStorage.setItem('userId', 2);
+    window.location.assign('/dashboard');
 
-    //   })
-    //   .catch(err => {
-    //     console.error(err, 'error');
-    //   });
+    // return fetch(loginUrl, {
+    //   method: 'post',
+    //   body: {
+    //     email: username,
+    //     password: password,
+    //   }
+    // }) 
+    // .then((response) => response.json())
+    // .then(({data}) => {
+    //   localStorage.set('userId', data.userId);
+    //   browserHistory.push('/dashboard');
+    // })
+    // .catch(err => {
+    //   console.error(err, 'error');
+    // });
   }
 
   render() {
-    // const { login } = this.props;
     return (
       <Article>
         <Section align="center" justify="center">
