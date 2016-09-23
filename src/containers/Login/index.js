@@ -9,7 +9,7 @@ import Section from 'grommet/components/Section';
 import LoginForm from 'grommet/components/LoginForm';
 import Image from 'grommet/components/Image';
 
-const loginUrl = `${API_SERVER}/login`;
+const loginUrl = `/login`;
 
 class Login extends Component {
   constructor(props) {
@@ -26,25 +26,25 @@ class Login extends Component {
     if (!username || !password) {
      return this.setState({errors: ['Email and Password are Required']});
     }
-    //Remove
-    localStorage.setItem('userId', 2);
-    window.location.assign('/dashboard');
-
-    // return fetch(loginUrl, {
-    //   method: 'post',
-    //   body: {
-    //     email: username,
-    //     password: password,
-    //   }
-    // }) 
-    // .then((response) => response.json())
-    // .then(({data}) => {
-    //   localStorage.set('userId', data.userId);
-    //   browserHistory.push('/dashboard');
-    // })
-    // .catch(err => {
-    //   console.error(err, 'error');
-    // });
+    const body = JSON.stringify({
+      email: username,
+      password: password
+    });
+    return fetch(loginUrl, {
+      method: 'post',
+      credentials: 'include',
+      body
+    }) 
+    .then((response) => response.json())
+    .then(({data}) => {
+      console.log(data, 'data');
+      localStorage.set('userId', data.userId);
+      window.location.assign('/dashboard');
+    })
+    .catch(err => {
+      this.setState({errors: ['Failed Login']});
+      console.error(err, 'error');
+    });
   }
 
   render() {
