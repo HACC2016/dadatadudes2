@@ -43,7 +43,7 @@ class Login extends Component {
     .then((response) => response.json())
     .then(({data}) => {
       console.log(data, 'data');
-      localStorage.set('userId', data.userId);
+      localStorage.setItem('userId', data.userId);
       window.location.assign('/dashboard');
     })
     .catch(err => {
