@@ -50,13 +50,10 @@ export default function mdbConstructor(mPool) {
         .then(r => r.ops);
     },
 
-    getUsersByEmails(emails) {
+    getUserByEmail(email) {
       return mPool.collection('users')
-        .find({ email: { $in: emails } })
-        .toArray()
-        .then(rows =>
-          orderedFor(rows, emails, 'email', true)
-        );
+        .findOne({ email })
+        .then(user => user);
     },
 
     getAllDistricts() {
@@ -81,7 +78,7 @@ export default function mdbConstructor(mPool) {
       return mPool.collection('districts')
         .find({ county: { $in: counties } })
         .toArray()
-        .then(rows => 
+        .then(rows =>
           orderedFor(rows, counties, 'county', false)
         );
     },

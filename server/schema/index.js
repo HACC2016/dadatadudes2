@@ -7,7 +7,6 @@ import {
   GraphQLObjectType
 } from 'graphql';
 
-import UserType from './types/user';
 import DistrictType from './types/districts';
 import ReportType from './types/reports';
 import PersonType from './types/persons';
@@ -19,17 +18,6 @@ const QueryType = new GraphQLObjectType({
   name: 'QueryType',
 
   fields: () => ({
-    user: {
-      type: UserType,
-      description: 'The user identified by a unique id.',
-      args: {
-        email: { type: new GraphQLNonNull(GraphQLString) }
-      },
-      resolve: (obj, args, { loaders }) => (
-        loaders.usersByEmails.load(args.email)
-      )
-    },
-
     district: {
       type: new GraphQLList(DistrictType),
       description: 'The city council district, and associated council member.',
