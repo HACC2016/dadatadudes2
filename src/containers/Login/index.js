@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { login as actions } from './module';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
-import { API_SERVER } from '../../../config'; 
+import { API_SERVER } from '../../../config';
 
 import Article from 'grommet/components/Article';
 import Section from 'grommet/components/Section';
@@ -30,11 +30,16 @@ class Login extends Component {
       email: username,
       password: password
     });
+
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
     return fetch(loginUrl, {
-      method: 'post',
+      method: 'POST',
+      headers,
       credentials: 'include',
       body
-    }) 
+    })
     .then((response) => response.json())
     .then(({data}) => {
       console.log(data, 'data');
@@ -54,7 +59,7 @@ class Login extends Component {
           <LoginForm
             title="Welcome"
             secondaryText="HOME Dashboard"
-            onSubmit={this._onSubmit} 
+            onSubmit={this._onSubmit}
             errors={this.state.errors}/>
         </Section>
       </Article>

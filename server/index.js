@@ -38,11 +38,15 @@ MongoClient.connect(process.env.MONGO_URL, (err, mPool) => {
       const user = mdb.getUserByEmail(req.body.email);
 
       if (user) {
-        return res.sendStatus(200).end();
+        return res.status(200).send({
+          data: {
+            userId: user._id
+          }
+        }).end();
       }
     }
 
-    return res.sendStatus(403).end();
+    return res.status(403).end();
   });
 
   app.use('/graphql', (req, res) => {
