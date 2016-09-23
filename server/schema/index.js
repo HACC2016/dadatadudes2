@@ -13,6 +13,8 @@ import PersonType from './types/persons';
 import AssessmentType from './types/assessments';
 
 import AddReportMutation from './mutations/reports';
+import AddPersonMutation from './mutations/persons';
+import AddAssessmentMutation from './mutations/assessments';
 
 const QueryType = new GraphQLObjectType({
   name: 'QueryType',
@@ -88,7 +90,9 @@ const MutationType = new GraphQLObjectType({
   name: 'MutationType',
 
   fields: () => ({
-    AddReport: AddReportMutation
+    AddReport: AddReportMutation,
+    AddPerson: AddPersonMutation,
+    AddAssessment: AddAssessmentMutation
   })
 });
 

@@ -50,6 +50,18 @@ export default function mdbConstructor(mPool) {
         .then(r => r.ops);
     },
 
+    addPerson(input) {
+      return mPool.collection('persons')
+        .insertOne(input)
+        .then(r => r.ops);
+    },
+
+    addAssessment(input) {
+      return mPool.collection('assessments')
+        .insertOne(input)
+        .then(r => r.ops);
+    },
+
     getUserByEmail(email) {
       return mPool.collection('users')
         .findOne({ email })
