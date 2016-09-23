@@ -54,7 +54,7 @@ export const SidebarNav = ({routes}) =>
           <Button label="Logout" onClick={(e) => {
             e.preventDefault();
             localStorage.clear();
-            browserHistory.push('/login'); 
+            window.location.assign('/login');; 
           }}/>
         </Box>
       </Box>

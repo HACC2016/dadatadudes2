@@ -28,7 +28,7 @@ class Login extends Component {
     }
     //Remove
     localStorage.setItem('userId', 2);
-    browserHistory.push('/dashboard');
+    window.location.assign('/dashboard');
 
     // return fetch(loginUrl, {
     //   method: 'post',

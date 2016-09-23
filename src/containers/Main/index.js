@@ -45,7 +45,6 @@ class Main extends Component {
     };
     let sidebar = null;
     if (this.state.isAuthenticated) {
-      console.log('nice');
       sidebar = <SideBarNav routes={routes()} />;
     }
     return (
