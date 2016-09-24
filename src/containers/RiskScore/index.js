@@ -119,7 +119,6 @@ class RiskScore extends Component {
               <Anchor onClick={() => this._selectIsland('Oahu')}>Oahu</Anchor>
               <Anchor onClick={() => this._selectIsland('Maui')}>Maui</Anchor>
               <Anchor onClick={() => this._selectIsland('Hawaii')}>Hawaii</Anchor>
-              <Anchor onClick={() => this._selectIsland('Kauai')}>Kauai</Anchor>
             </Menu>
           </Box>
           <Box 
