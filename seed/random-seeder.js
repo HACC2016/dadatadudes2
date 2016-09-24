@@ -16,6 +16,7 @@ const geolocation = ['21.4307732,-158.1727855', '21.4300338,-158.1886537', '21.4
                      '21.267555,-157.821828'];
 const reasons = ['drugs or alcohol', 'unemployment', 'family', 'domestic abuse'];
 const timeRanges = ['0 - 6 months', '1 year - 2 years', '3+ years'];
+const numberOfInstances = ['0', '1-2', '3-4', '5+'];
 const languages = ['french', 'english', 'hawaiian', 'filipino', 'samoan', 'chamorro', 'nukuoro', 'japanese'];
 const coin_flip = ['yes', 'no'];
 const start = new Date(2015, 1, 1);
@@ -33,24 +34,24 @@ function generateReport() {
 
 function generatePerson(reportId) {
   return {
-    age: casual.integer(from = 14, to = 67),
-    alcoholDrugProblem: casual.coin_flip,
-    benefitEbt: casual.coin_flip,
-    benefitSsi: casual.coin_flip,
-    benefitTanf: casual.coin_flip,
-    benefitUnemployment: casual.coin_flip,
-    benefitVeteran: casual.coin_flip,
-    benefitWelfare: casual.coin_flip,
+    age: casual.integer(from = 14, to = 67).toString(),
+    alcoholDrugProblem: casual.random_element(coin_flip),
+    benefitEbt: casual.random_element(coin_flip),
+    benefitSsi: casual.random_element(coin_flip),
+    benefitTanf: casual.random_element(coin_flip),
+    benefitUnemployment: casual.random_element(coin_flip),
+    benefitVeteran: casual.random_element(coin_flip),
+    benefitWelfare: casual.random_element(coin_flip),
     dateCreated: randomDate(Date.now()),
     districtId: casual.random_element(councilDistricts).districtId,
     driversLicenseNumber: casual.card_number('American Express'),
     educationLevel: casual.random_element(education),
-    employmentCurPay: casual.integer(from = 0, to = 1000),
+    employmentCurPay: casual.integer(from = 0, to = 1000).toString(),
     employmentLastEmployed: casual.date(format = 'YYYY-MM-DD'),
-    employmentStatus: casual.coin_flip,
+    employmentStatus: casual.random_element(coin_flip),
     ethnicity: casual.random_element(ethnicity),
-    familyMembersAdult: casual.integer(from = 1, to = 3),
-    familyMembersChildren: casual.integer(from = 0, to = 7),
+    familyMembersAdult: casual.integer(from = 1, to = 3).toString(),
+    familyMembersChildren: casual.integer(from = 0, to = 7).toString(),
     firstName: casual.first_name,
     gender: casual.random_element(gender),
     geoLocation: casual.random_element(geolocation),
@@ -59,16 +60,16 @@ function generatePerson(reportId) {
     lastHomelessAreaLived: casual.random_element(homelessCount),
     lastName: casual.last_name,
     lengthOfStayHawaii: casual.random_element(timeRanges),
-    mentalHealthDisability: casual.coin_flip,
-    onTheStreets: casual.coin_flip,
+    mentalHealthDisability: casual.random_element(coin_flip),
+    onTheStreets: casual.random_element(coin_flip),
     otherDisability: casual.random_element(disabilites),
     reportIds: [reportId],
     reasonForHomelessness: casual.random_element(reasons),
     shelterName: (casual.random_element(shelterAdjective) + ' ' + casual.random_element(shelterPlace)),
-    shelterStatus: casual.coin_flip,
+    shelterStatus: casual.random_element(coin_flip),
     ssn: casual.phone,
-    timeHomelessCount: casual.integer(from = 1, to = 3),
-    veteran: casual.coin_flip
+    timeHomelessCount: casual.random_element(numberOfInstances),
+    veteran: casual.random_element(coin_flip)
   };
 }
 
@@ -78,7 +79,7 @@ function generateAssessment(person) {
     districtId: person.districtId,
     generalDemographics: {
       age: person.age,
-      consentOfParticipation: casual.coin_flip,
+      consentOfParticipation: casual.random_element(coin_flip),
       dateOfBirth: casual.date(format = 'YYYY-MM-DD'),
       firstName: person.firstName,
       languages: casual.array_of_words(n = 7),
@@ -89,21 +90,21 @@ function generateAssessment(person) {
     },
     historyOfHousingAndHomelessness: {
       sleepsMostFrequentlyAt: casual.street,
-      timePassedSincePermanentHousing: casual.random_element(timeRanges),
-      timesHomelessInPastThreeYears: casual.integer(from = 0, to = 4)
+      timePassedSincePermanentHousing: casual.random_element(numberOfInstances),
+      timesHomelessInPastThreeYears: casual.random_element(numberOfInstances)
     },
     risks: {
-      timesReceivedErCareInSixMonths: casual.integer(from = 0, to = 7),
-      timesAmbulanceRidesInSixMonths: casual.integer(from = 0, to = 7),
-      timesHospitalizedAsInpatientInSixMonths: casual.integer(from = 0, to = 7),
-      timesUsedCrisisServiceInSixMonths: casual.integer(from = 0, to = 7),
-      timesPoliceTalksInSixMonths: casual.integer(from = 0, to = 7),
-      timesJailedInSixMonths: casual.integer(from = 0, to = 7),
-      timesAttackedSinceHomeless: casual.integer(from = 0, to = 7),
-      timesHarmedSelfOrOthersPastYear: casual.integer(from = 0, to = 7),
-      hasImmediateLegalIssues: casual.coin_flip,
-      beingForcedUponToDoUnwantedThings: casual.coin_flip,
-      beingExploitedForSexOrDrugs: casual.coin_flip
+      timesReceivedErCareInSixMonths: casual.random_element(numberOfInstances),
+      timesAmbulanceRidesInSixMonths: casual.random_element(numberOfInstances),
+      timesHospitalizedAsInpatientInSixMonths: casual.random_element(numberOfInstances),
+      timesUsedCrisisServiceInSixMonths: casual.random_element(numberOfInstances),
+      timesPoliceTalksInSixMonths: casual.random_element(numberOfInstances),
+      timesJailedInSixMonths: casual.random_element(numberOfInstances),
+      timesAttackedSinceHomeless: casual.random_element(numberOfInstances),
+      timesHarmedSelfOrOthersPastYear: casual.random_element(numberOfInstances),
+      hasImmediateLegalIssues: casual.random_element(coin_flip),
+      beingForcedUponToDoUnwantedThings: casual.random_element(coin_flip),
+      beingExploitedForSexOrDrugs: casual.random_element(coin_flip)
     },
     scores: {
       basicDemographicRiskScore: casual.integer(from = 0, to = 1),
@@ -124,28 +125,28 @@ function generateAssessment(person) {
       abuseAndTraumaScore: casual.integer(from = 0, to = 1)
     },
     socializingAndDailyFunctioning: {
-      owesMoney: casual.coin_flip,
-      hasIncome: casual.coin_flip,
-      hasMeaningfulActivity: casual.coin_flip,
-      hasBasicSelfCare: casual.coin_flip,
-      homelessDueToRelationships: casual.coin_flip
+      owesMoney: casual.random_element(coin_flip),
+      hasIncome: casual.random_element(coin_flip),
+      hasMeaningfulActivity: casual.random_element(coin_flip),
+      hasBasicSelfCare: casual.random_element(coin_flip),
+      homelessDueToRelationships: casual.random_element(coin_flip)
     },
     wellness: {
-      forcedFromHousingBecauseHealth: casual.coin_flip,
-      chronicHealthIssues: casual.coin_flip,
-      interestedInHivAidsProgram: casual.coin_flip,
-      limitingPhysicalDisabilities: casual.coin_flip,
-      avoidsHelpWhenSick: casual.coin_flip,
-      currentlyPregnant: casual.coin_flip,
-      forcedFromHousingBecauseAlcoholOrDrugs: casual.coin_flip,
-      maintainHousingDifficultyAlcoholDrugs: casual.coin_flip,
-      maintainHousingDifficultyMentalHealth: casual.coin_flip,
-      maintainHousingDifficultyHeadInjury: casual.coin_flip,
-      maintainHousingDifficultyLearningDisability: casual.coin_flip,
-      limitingMentalDisabilities: casual.coin_flip,
-      notTakingPrescribedMedications: casual.coin_flip,
-      sellingOrAbusingPrescribedMedications: casual.coin_flip,
-      homelessnessCausedByAbuseOrTrauma: casual.coin_flip
+      forcedFromHousingBecauseHealth: casual.random_element(coin_flip),
+      chronicHealthIssues: casual.random_element(coin_flip),
+      interestedInHivAidsProgram: casual.random_element(coin_flip),
+      limitingPhysicalDisabilities: casual.random_element(coin_flip),
+      avoidsHelpWhenSick: casual.random_element(coin_flip),
+      currentlyPregnant: casual.random_element(coin_flip),
+      forcedFromHousingBecauseAlcoholOrDrugs: casual.random_element(coin_flip),
+      maintainHousingDifficultyAlcoholDrugs: casual.random_element(coin_flip),
+      maintainHousingDifficultyMentalHealth: casual.random_element(coin_flip),
+      maintainHousingDifficultyHeadInjury: casual.random_element(coin_flip),
+      maintainHousingDifficultyLearningDisability: casual.random_element(coin_flip),
+      limitingMentalDisabilities: casual.random_element(coin_flip),
+      notTakingPrescribedMedications: casual.random_element(coin_flip),
+      sellingOrAbusingPrescribedMedications: casual.random_element(coin_flip),
+      homelessnessCausedByAbuseOrTrauma: casual.random_element(coin_flip)
     }
   };
 }
