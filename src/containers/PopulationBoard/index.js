@@ -40,6 +40,7 @@ const personsQuery =
   } `;
 
 const listPersons = graphql(personsQuery, {
+  options: { pollInterval: 10000 },
   props: ({ data }) => ({
     persons: data.persons ? data.persons : [],
     fetchMore: data.fetchMore,

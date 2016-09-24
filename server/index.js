@@ -33,11 +33,10 @@ MongoClient.connect(process.env.MONGO_URL, (err, mPool) => {
   assert.equal(err, null);
   const mdb = mdbConstructor(mPool);
 
-  app.post('/login', (req, res) => {
+  app.post('/login', async (req, res) => {
     if (req.body.email) {
-      const user = mdb.getUserByEmail(req.body.email);
-
-      if (user) {
+      const user = await mdb.getUserByEmail(req.body.email);
+      if (user._id) {
         return res.status(200).send({
           data: {
             userId: user._id
