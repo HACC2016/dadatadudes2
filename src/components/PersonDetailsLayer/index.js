@@ -35,10 +35,10 @@ const PersonDetailsLayer = ({
       align="right" 
       onClose={onClose} 
       closer={true}>
-      <Box justify="between" direction="column"> 
+      <Box  direction="column"> 
         <Header>{`${firstName} ${lastName}`}</Header>
 
-        <Box justify="center" align="center"> 
+        <Box> 
           <Heading tag="h5">Risk Score</Heading>
           <Meter 
             max={17} 
@@ -51,7 +51,7 @@ const PersonDetailsLayer = ({
               {value: 15, label: 'Critical', colorIndex: 'critical'},
             ]}/>
         </Box>
-        <Box pad={{vertical: 'large', horizontal: 'small'}} direction="column">
+        <Box pad={{vertical: 'large'}} direction="column">
           <Box>
             <Value 
               label="Social & Daily" 
