@@ -111,6 +111,11 @@ class RiskScore extends Component {
       index, 
       label: val.districtId.split('-').pop()
     }));
+    const meanRisk = () => {
+      let total = 0;
+      riskScoreValues.forEach((value) => total += value);
+      return Math.round(total / riskScoreValues.length);
+    };
 
     return (
       <Article pad={{vertical: 'large'}}>
@@ -187,61 +192,69 @@ class RiskScore extends Component {
         </Box>
         }
         {this.state.category === 'averageRisk' &&
-          <Chart full={true}>
-            <Axis 
-              vertical={true} 
-              count={4} 
-              labels={[
-                {index: 3, label: `${getMaxVal(riskScoreValues)}`},
-                {index: 1, label: `${getMaxVal(riskScoreValues) / 2}`}
-              ]} 
-              ticks={true} />
-            <Chart vertical={true}>
-              <MarkerLabel 
-                count={riskScoreValues.length} 
-                index={activeIndex} 
-                label={<Value label={`District ${labels[activeIndex].label}`} value={riskScoreValues[activeIndex]} />} />
-              <Base height="medium" width="large" />
-              <Layers>
-                <Grid rows={3} columns={5} />
-                <Marker colorIndex="critical" value={90} />
-                <Marker colorIndex="critical" value={50} />
-                <Marker vertical={true} colorIndex="graph-2" count={12} index={11} />
-                <Area 
-                  smooth={true} 
-                  values={personValues} 
-                  min={getMinVal(personValues)}
-                  max={getMaxVal(personValues)}
-                  activeIndex={activeIndex} />
-                <Line 
-                  smooth={true} 
-                  colorIndex="accent-1"
-                  values={riskScoreValues}
-                  min={getMinVal(riskScoreValues)}
-                  max={getMaxVal(riskScoreValues)}
-                  activeIndex={activeIndex}
-                  points={true} />
-                <HotSpots 
-                  count={riskScoreValues.length} 
-                  activeIndex={activeIndex} 
-                  onActive={this._onActive} />
-              </Layers>
+          <Box 
+            justify="center"
+            pad={{horizontal: 'large'}}>
+            <Chart full={true}>
               <Axis 
-                ticks={true} 
-                count={labels.length} 
-                labels={labels}  />
+                vertical={true} 
+                count={4} 
+                labels={[
+                  {index: 3, label: `${getMaxVal(riskScoreValues)}`},
+                  {index: 1, label: `${getMaxVal(riskScoreValues) / 2}`}
+                ]} 
+                ticks={true} />
+              <Chart vertical={true} full={true}>
+                <MarkerLabel 
+                  count={riskScoreValues.length} 
+                  index={activeIndex} 
+                  label={
+                    <Value label={activeIndex ? 
+                     `District ${labels[activeIndex].label}` : ''
+                   } 
+                  value={riskScoreValues[activeIndex]} />} />
+                <Base height="large" width="full" />
+                <Layers>
+                  <Grid rows={3} columns={5} />
+                  <Marker 
+                    colorIndex="critical"
+                    value={meanRisk()}
+                    min={getMinVal(riskScoreValues)}
+                    max={getMaxVal(riskScoreValues)}  />
+                  <Marker 
+                    vertical={true} 
+                    colorIndex="graph-2" 
+                    count={riskScoreValues.length} 
+                    index={activeIndex} />
+                  <Area 
+                    smooth={true} 
+                    values={personValues} 
+                    min={getMinVal(personValues)}
+                    max={getMaxVal(personValues)}
+                    activeIndex={activeIndex} />
+                  <Line 
+                    smooth={true} 
+                    colorIndex="accent-1"
+                    values={riskScoreValues}
+                    min={getMinVal(riskScoreValues)}
+                    max={getMaxVal(riskScoreValues)}
+                    activeIndex={activeIndex}
+                    points={true} />
+                  <HotSpots 
+                    count={riskScoreValues.length} 
+                    activeIndex={activeIndex} 
+                    onActive={this._onActive} />
+                </Layers>
+              </Chart>
+              <MarkerLabel 
+                vertical={true}
+                min={getMinVal(riskScoreValues)}
+                max={getMaxVal(riskScoreValues)} 
+                colorIndex="critical" 
+                label={`High Risk Line: ${meanRisk().toString()}`} 
+                value={meanRisk()} />
             </Chart>
-            <MarkerLabel 
-              vertical={true} 
-              colorIndex="critical" 
-              label="90%" 
-              value={90} />
-            <MarkerLabel 
-              vertical={true} 
-              colorIndex="warning" 
-              label="50%" 
-              value={50} />
-          </Chart>
+          </Box>
         }
       </Article>
     );
