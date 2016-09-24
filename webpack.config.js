@@ -59,6 +59,6 @@ module.exports = {
     contentBase: './dist'
   },
   resolve: {
-    extensions: ['', '.js', '.jsx', '.svg']
+    extensions: ['', '.js', '.jsx', '.svg', '.json']
   }
 };

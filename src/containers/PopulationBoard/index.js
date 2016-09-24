@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './index.scss';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -15,7 +16,7 @@ import PersonDetailsLayer from '../../components/PersonDetailsLayer';
 const personsQuery =
   gql`
   query {
-    persons {
+    persons(offset: 0, limit: 50) {
       _id
       firstName
       lastName,
@@ -25,7 +26,6 @@ const personsQuery =
       employmentStatus
       familyMembersChildren
       districtId,
-      assessmentIds
       assessments {
         _id
         personId
@@ -40,6 +40,7 @@ const personsQuery =
   } `;
 
 const listPersons = graphql(personsQuery, {
+  options: { pollInterval: 10000 },
   props: ({ data }) => ({
     persons: data.persons ? data.persons : [],
     fetchMore: data.fetchMore,
@@ -51,8 +52,8 @@ class PopulationBoard extends Component {
     super(props);
     this.state = {
       showDetails: false,
-      filter: { assessmentId: [] },
-      sort: 'lastName:asc',
+      filter: { assessments: [] },
+      sort: 'districtId:asc',
       query: '',
       result: {
         items: [],
@@ -94,7 +95,7 @@ class PopulationBoard extends Component {
   }
 
   _onMore() {
-    // this.props.fetchMore({});
+    this.props.fetchMore({variables: {offset: 50, limit: 50}});
   }
 
   _handleFiltering() {
@@ -102,18 +103,35 @@ class PopulationBoard extends Component {
     const filtered = personsList.items.filter(person => {
       const matchesSearch = person.lastName.toLowerCase().includes(query.toLowerCase());
       let matchesFilter;
-      if (filter.assessmentIds[0] === 'yes') {
-        matchesFilter = Array.isArray(person.assessmentIds);
-      } else if (filter.assessmentIds[0] === 'no') {
-        matchesFilter = !person.assessmentIds;
+      if (filter.assessments[0] === 'yes') {
+        matchesFilter = Array.isArray(person.assessments);
+      } else if (filter.assessments[0] === 'no') {
+        matchesFilter = !person.assessments;
       } else {
         matchesFilter = true;
       }
       return matchesSearch && matchesFilter;
     });
     const sortType = sort.split(':')[0];
+    const sortResult = (filtered) => {
+      const firstSort = filtered.sort((a, b) => {
+        const first = a[sortType].split('-')[0];
+        const second = b[sortType].split('-')[0]
+        if (first < second) return 1;
+        if (first > second) return -1;
+        if (first === second) return 0;
+      });
+      return firstSort.sort((c, d) => {
+        const prev = c[sortType].split('-')[1]; 
+        const cur = c[sortType].split('-')[1];
+        if (prev < cur) return 1;
+        if (prev > cur) return -1;
+        if (prev === cur) return 0;
+      });
+    };
+    const sorted = sortResult(filtered);
     this.setState({result: {
-      items: filtered,
+      items: sorted,
       total: filtered.length,
       start: 0,
       count: 10,
@@ -140,8 +158,8 @@ class PopulationBoard extends Component {
     });
   }
 
-  _openLayer(id, assessmentIds) {
-    if (!assessmentIds) {
+  _openLayer(id, assessments) {
+    if (!assessments) {
       return this.setState({notification: true});
     }
     this.setState({
@@ -151,15 +169,11 @@ class PopulationBoard extends Component {
   }
 
   _findPerson(id) {
-    const {
-      response: { persons },
-    } = this.props;
+    const {persons} = this.props;
     return persons.find(({_id}) => _id === this.state.id);
   }
 
   render() {
-    // TODO: Remove this
-    const riskScore = 6;
     const data = {
       ...this.state.result,
       items: this.state.result.items.map((person) => {
@@ -177,8 +191,9 @@ class PopulationBoard extends Component {
           />
         }
         <Index
-          view={{medium: 'list', small: 'tiles'}}
+          view={{medium: 'table', small: 'tiles'}}
           fill={false}
+          selectable={true}
           flush={false}
           onSort={this._onSort}
           onFilter={this._onFilter}
