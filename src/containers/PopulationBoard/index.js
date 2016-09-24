@@ -51,7 +51,7 @@ class PopulationBoard extends Component {
     super(props);
     this.state = {
       showDetails: false,
-      filter: { assessmentId: [] },
+      filter: { assessments: [] },
       sort: 'lastName:asc',
       query: '',
       result: {
