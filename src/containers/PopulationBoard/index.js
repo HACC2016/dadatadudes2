@@ -26,7 +26,6 @@ const personsQuery =
       employmentStatus
       familyMembersChildren
       districtId,
-      assessmentIds
       assessments {
         _id
         personId
@@ -103,10 +102,10 @@ class PopulationBoard extends Component {
     const filtered = personsList.items.filter(person => {
       const matchesSearch = person.lastName.toLowerCase().includes(query.toLowerCase());
       let matchesFilter;
-      if (filter.assessmentId[0] === 'yes') {
-        matchesFilter = Array.isArray(person.assessmentId);
-      } else if (filter.assessmentId[0] === 'no') {
-        matchesFilter = !person.assessmentId;
+      if (filter.assessments[0] === 'yes') {
+        matchesFilter = Array.isArray(person.assessments);
+      } else if (filter.assessments[0] === 'no') {
+        matchesFilter = !person.assessments;
       } else {
         matchesFilter = true;
       }
@@ -141,8 +140,8 @@ class PopulationBoard extends Component {
     });
   }
 
-  _openLayer(id, assessmentIds) {
-    if (!assessmentIds) {
+  _openLayer(id, assessments) {
+    if (!assessments) {
       return this.setState({notification: true});
     }
     this.setState({

@@ -160,9 +160,9 @@ export default function mdbConstructor(mPool) {
         );
     },
 
-    getAllPersons(skip = 0, limit = 50) {
+    getAllPersons(skip = 0) {
       return mPool.collection('persons')
-        .find({}, { skip, limit })
+        .find({}, { skip })
         .toArray()
         .then(rows =>
           rows
