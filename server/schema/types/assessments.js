@@ -13,6 +13,7 @@ const AssessmentGDType = new GraphQLObjectType({
     age: { type: GraphQLString },
     consentOfParticipation: { type: GraphQLString },
     dateOfBirth: { type: GraphQLString },
+    ethnicity: { type: GraphQLString },
     firstName: { type: GraphQLString },
     languages: { type: new GraphQLList(GraphQLString) },
     lastName: { type: GraphQLString },
