@@ -1,9 +1,8 @@
 import {
   GraphQLObjectType,
-  GraphQLBoolean,
-  GraphQLInt,
   GraphQLString,
   GraphQLList,
+  GraphQLInt,
   GraphQLID
 } from 'graphql';
 
@@ -11,8 +10,8 @@ const AssessmentGDType = new GraphQLObjectType({
   name: 'AssessmentGDType',
   description: 'General Demographics of the person being assessed.',
   fields: {
-    age: { type: GraphQLInt },
-    consentOfParticipation: { type: GraphQLBoolean },
+    age: { type: GraphQLString },
+    consentOfParticipation: { type: GraphQLString },
     dateOfBirth: { type: GraphQLString },
     firstName: { type: GraphQLString },
     languages: { type: new GraphQLList(GraphQLString) },
@@ -29,7 +28,7 @@ const AssessmentHHHType = new GraphQLObjectType({
   fields: {
     sleepsMostFrequentlyAt: { type: GraphQLString },
     timePassedSincePermanentHousing: { type: GraphQLString },
-    timesHomelessInPastThreeYears: { type: GraphQLInt }
+    timesHomelessInPastThreeYears: { type: GraphQLString }
   }
 });
 
@@ -37,17 +36,17 @@ const AssessmentRisksType = new GraphQLObjectType({
   name: 'AssessmentRisksType',
   description: 'Risks that have recently been taken by the assessed person.',
   fields: {
-    timesReceivedErCareInSixMonths: { type: GraphQLInt },
-    timesAmbulanceRidesInSixMonths: { type: GraphQLInt },
-    timesHospitalizedAsInpatientInSixMonths: { type: GraphQLInt },
-    timesUsedCrisisServiceInSixMonths: { type: GraphQLInt },
-    timesPoliceTalksInSixMonths: { type: GraphQLInt },
-    timesJailedInSixMonths: { type: GraphQLInt },
-    timesAttackedSinceHomeless: { type: GraphQLInt },
-    timesHarmedSelfOrOthersPastYear: { type: GraphQLInt },
-    hasImmediateLegalIssues: { type: GraphQLBoolean },
-    beingForcedUponToDoUnwantedThings: { type: GraphQLBoolean },
-    beingExploitedForSexOrDrugs: { type: GraphQLBoolean }
+    timesReceivedErCareInSixMonths: { type: GraphQLString },
+    timesAmbulanceRidesInSixMonths: { type: GraphQLString },
+    timesHospitalizedAsInpatientInSixMonths: { type: GraphQLString },
+    timesUsedCrisisServiceInSixMonths: { type: GraphQLString },
+    timesPoliceTalksInSixMonths: { type: GraphQLString },
+    timesJailedInSixMonths: { type: GraphQLString },
+    timesAttackedSinceHomeless: { type: GraphQLString },
+    timesHarmedSelfOrOthersPastYear: { type: GraphQLString },
+    hasImmediateLegalIssues: { type: GraphQLString },
+    beingForcedUponToDoUnwantedThings: { type: GraphQLString },
+    beingExploitedForSexOrDrugs: { type: GraphQLString }
   }
 });
 
@@ -55,21 +54,21 @@ const AssessmentWellnessType = new GraphQLObjectType({
   name: 'AssessmentWellnessType',
   description: 'Wellness of the assessed person.',
   fields: {
-    forcedFromHousingBecauseHealth: { type: GraphQLBoolean },
-    chronicHealthIssues: { type: GraphQLBoolean },
-    interestedInHivAidsProgram: { type: GraphQLBoolean },
-    limitingPhysicalDisabilities: { type: GraphQLBoolean },
-    avoidsHelpWhenSick: { type: GraphQLBoolean },
-    currentlyPregnant: { type: GraphQLBoolean },
-    forcedFromHousingBecauseAlcoholOrDrugs: { type: GraphQLBoolean },
-    maintainHousingDifficultyAlcoholDrugs: { type: GraphQLBoolean },
-    maintainHousingDifficultyMentalHealth: { type: GraphQLBoolean },
-    maintainHousingDifficultyHeadInjury: { type: GraphQLBoolean },
-    maintainHousingDifficultyLearningDisability: { type: GraphQLBoolean },
-    limitingMentalDisabilities: { type: GraphQLBoolean },
-    notTakingPrescribedMedications: { type: GraphQLBoolean },
-    sellingOrAbusingPrescribedMedications: { type: GraphQLBoolean },
-    homelessnessCausedByAbuseOrTrauma: { type: GraphQLBoolean }
+    forcedFromHousingBecauseHealth: { type: GraphQLString },
+    chronicHealthIssues: { type: GraphQLString },
+    interestedInHivAidsProgram: { type: GraphQLString },
+    limitingPhysicalDisabilities: { type: GraphQLString },
+    avoidsHelpWhenSick: { type: GraphQLString },
+    currentlyPregnant: { type: GraphQLString },
+    forcedFromHousingBecauseAlcoholOrDrugs: { type: GraphQLString },
+    maintainHousingDifficultyAlcoholDrugs: { type: GraphQLString },
+    maintainHousingDifficultyMentalHealth: { type: GraphQLString },
+    maintainHousingDifficultyHeadInjury: { type: GraphQLString },
+    maintainHousingDifficultyLearningDisability: { type: GraphQLString },
+    limitingMentalDisabilities: { type: GraphQLString },
+    notTakingPrescribedMedications: { type: GraphQLString },
+    sellingOrAbusingPrescribedMedications: { type: GraphQLString },
+    homelessnessCausedByAbuseOrTrauma: { type: GraphQLString }
   }
 });
 
@@ -77,11 +76,11 @@ const AssessmentSDFType = new GraphQLObjectType({
   name: 'AssessmentSDFType',
   description: 'Socializing and daily functioning of the assessed person.',
   fields: {
-    owesMoney: { type: GraphQLBoolean },
-    hasIncome: { type: GraphQLBoolean },
-    hasMeaningfulActivity: { type: GraphQLBoolean },
-    hasBasicSelfCare: { type: GraphQLBoolean },
-    homelessDueToRelationships: { type: GraphQLBoolean }
+    owesMoney: { type: GraphQLString },
+    hasIncome: { type: GraphQLString },
+    hasMeaningfulActivity: { type: GraphQLString },
+    hasBasicSelfCare: { type: GraphQLString },
+    homelessDueToRelationships: { type: GraphQLString }
   }
 });
 
@@ -176,7 +175,7 @@ const AssessmentType = new GraphQLObjectType({
     personId: { type: GraphQLString },
     districtId: { type: GraphQLString },
     overallRiskScore: {
-      type: GraphQLInt,
+      type: GraphQLString,
       resolve: ({ scores }) => {
         const scoreTypes = Object.keys(scores);
         return scoreTypes.reduce((val, type) => {

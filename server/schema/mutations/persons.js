@@ -2,9 +2,7 @@ import {
   GraphQLInputObjectType,
   GraphQLList,
   GraphQLString,
-  GraphQLInt,
-  GraphQLNonNull,
-  GraphQLBoolean
+  GraphQLNonNull
 } from 'graphql';
 import PersonType from '../types/persons';
 
@@ -12,25 +10,25 @@ const PersonInputType = new GraphQLInputObjectType({
   name: 'PersonInputType',
 
   fields: () => ({
-    age: { type: GraphQLInt },
+    age: { type: GraphQLString },
     assessmentIds: { type: new GraphQLList(GraphQLString) },
-    alcoholDrugProblem: { type: GraphQLBoolean },
-    benefitEbt: { type: GraphQLBoolean },
-    benefitSsi: { type: GraphQLBoolean },
-    benefitTanf: { type: GraphQLBoolean },
-    benefitUnemployment: { type: GraphQLBoolean },
-    benefitVeteran: { type: GraphQLBoolean },
-    benefitWelfare: { type: GraphQLBoolean },
+    alcoholDrugProblem: { type: GraphQLString },
+    benefitEbt: { type: GraphQLString },
+    benefitSsi: { type: GraphQLString },
+    benefitTanf: { type: GraphQLString },
+    benefitUnemployment: { type: GraphQLString },
+    benefitVeteran: { type: GraphQLString },
+    benefitWelfare: { type: GraphQLString },
     dateCreated: { type: GraphQLString },
     districtId: { type: GraphQLString },
     driversLicenseNumber: { type: GraphQLString },
     educationLevel: { type: GraphQLString },
-    employmentCurPay: { type: GraphQLInt },
+    employmentCurPay: { type: GraphQLString },
     employmentLastEmployed: { type: GraphQLString },
-    employmentStatus: { type: GraphQLBoolean },
+    employmentStatus: { type: GraphQLString },
     ethnicity: { type: GraphQLString },
-    familyMembersAdult: { type: GraphQLInt },
-    familyMembersChildren: { type: GraphQLInt },
+    familyMembersAdult: { type: GraphQLString },
+    familyMembersChildren: { type: GraphQLString },
     firstName: { type: GraphQLString },
     gender: { type: GraphQLString },
     geoLocation: { type: GraphQLString },
@@ -39,15 +37,15 @@ const PersonInputType = new GraphQLInputObjectType({
     lastHomelessAreaLived: { type: GraphQLString },
     lastName: { type: GraphQLString },
     lengthOfStayHawaii: { type: GraphQLString },
-    mentalHealthDisability: { type: GraphQLBoolean },
-    onTheStreets: { type: GraphQLBoolean },
+    mentalHealthDisability: { type: GraphQLString },
+    onTheStreets: { type: GraphQLString },
     otherDisability: { type: GraphQLString },
     reportIds: { type: new GraphQLList(GraphQLString) },
     reasonForHomelessness: { type: GraphQLString },
     shelterName: { type: GraphQLString },
-    shelterStatus: { type: GraphQLBoolean },
+    shelterStatus: { type: GraphQLString },
     ssn: { type: GraphQLString },
-    timeHomelessCount: { type: GraphQLInt },
+    timeHomelessCount: { type: GraphQLString },
     veteran: { type: GraphQLString }
   })
 });
