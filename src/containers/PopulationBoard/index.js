@@ -51,8 +51,8 @@ class PopulationBoard extends Component {
     super(props);
     this.state = {
       showDetails: false,
-      filter: { assessmentId: [] },
-      sort: 'lastName:asc',
+      filter: { assessments: [] },
+      sort: 'districtId:asc',
       query: '',
       result: {
         items: [],
@@ -112,6 +112,7 @@ class PopulationBoard extends Component {
       return matchesSearch && matchesFilter;
     });
     const sortType = sort.split(':')[0];
+    console.log(sort, 'sort');
     this.setState({result: {
       items: filtered,
       total: filtered.length,
