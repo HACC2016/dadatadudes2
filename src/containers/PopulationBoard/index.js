@@ -112,9 +112,25 @@ class PopulationBoard extends Component {
       return matchesSearch && matchesFilter;
     });
     const sortType = sort.split(':')[0];
-    console.log(sort, 'sort');
+    const sortResult = (filtered) => {
+      const firstSort = filtered.sort((a, b) => {
+        const first = a[sortType].split('-')[0];
+        const second = b[sortType].split('-')[0]
+        if (first < second) return 1;
+        if (first > second) return -1;
+        if (first === second) return 0;
+      });
+      return firstSort.sort((c, d) => {
+        const prev = c[sortType].split('-')[1]; 
+        const cur = c[sortType].split('-')[1];
+        if (prev < cur) return 1;
+        if (prev > cur) return -1;
+        if (prev === cur) return 0;
+      });
+    };
+    const sorted = sortResult(filtered);
     this.setState({result: {
-      items: filtered,
+      items: sorted,
       total: filtered.length,
       start: 0,
       count: 10,
