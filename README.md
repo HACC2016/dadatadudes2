@@ -8,16 +8,16 @@
 1. `npm run dev`
 1. Navigate to `http://localhost:8000` to see your app in action.
 1. Navigate to `http://localhost:8000/graphql` to mess around with the GraphQL API.
-1. Start making changes by working in the `src` directory
 
 ## Test out graphiql queries!
 ```
 query TestQuery {
-  query {
-    persons(offset: 0, limit: 50) {
-      age
-      firstName
-      lastName
+  persons {
+    age
+    firstName
+    lastName
+    assessments {
+       overallRiskScore
     }
   }
 }
