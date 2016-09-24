@@ -13,7 +13,7 @@ const PersonRecord = ({
     _id,
     firstName,
     lastName,
-    assessmentIds,
+    assessments,
     age,
     gender,
     ethnicity,
@@ -25,10 +25,10 @@ const PersonRecord = ({
 }) =>
     <TableRow
       key={`activity-list-item-${index}`}
-      onClick={() => openLayer(_id, assessmentIds)}>
+      onClick={() => openLayer(_id, assessments)}>
 
       <td>
-        <StatusIcon value={assessmentIds ? 'ok' : 'critical'} />
+        <StatusIcon value={assessments ? 'ok' : 'critical'} />
       </td>
 
       <td>

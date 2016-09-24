@@ -1,13 +1,13 @@
 export default [{
   label: 'Asssessment',
-  name: 'assessmentId',
+  name: 'assessments',
   filter: {
     values: [{
       label: 'Assessment',
-      value: 'no'
+      value: 'yes'
     }, {
       label: 'No Assessment',
-      value: 'yes'
+      value: 'no'
     }]
   },
   hidden: true
