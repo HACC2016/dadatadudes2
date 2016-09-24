@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { compact } from 'lodash';
-import { connect } from 'react-redux';
 
 import App from 'grommet/components/App';
 import Split from 'grommet/components/Split';
@@ -8,8 +7,19 @@ import Split from 'grommet/components/Split';
 import SideBarNav from '../../components/SideBarNav';
 
 class Main extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isAuthenticated: false
+    }
+  }
+
   componentWillMount() {
-  	// TODO: Add auth
+    const user = localStorage.getItem('userId');
+    if (user) {
+      return this.setState({isAuthenticated: true});
+    }
+    this.setState({isAuthenticated: false});
   }
 
   render() {
@@ -33,6 +43,10 @@ class Main extends Component {
         return label ? {...link, isDisabled: true} : false;
       }));
     };
+    let sidebar = null;
+    if (this.state.isAuthenticated) {
+      sidebar = <SideBarNav routes={routes()} />;
+    }
     return (
       <App centered={false}>
         <Split
@@ -41,7 +55,7 @@ class Main extends Component {
           flex="right"
           priority="right">
 
-          <SideBarNav routes={routes()} />
+          {sidebar}
 
           {children}
         </Split>
@@ -50,8 +64,4 @@ class Main extends Component {
   }
 }
 
-export const stateToProps = state => ({
-  ...state
-});
-
-export default connect(stateToProps)(Main);
+export default Main;

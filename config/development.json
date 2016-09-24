@@ -1,0 +1,6 @@
+{
+  "API_SERVER": {
+    "HOSTNAME": "http://localhost:8080",
+    "ENDPOINT": "/api"
+  }
+}

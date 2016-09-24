@@ -5,6 +5,7 @@ import DataLoader from 'dataloader';
 import graphqlHTTP from 'express-graphql';
 import assert from 'assert';
 import { MongoClient } from 'mongodb';
+import cors from 'cors';
 import path from 'path';
 import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
@@ -20,6 +21,7 @@ const port = process.env.DEV_APP_PORT || process.env.PORT;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
 if (!DEBUG) {
   app.use(express.static(process.env.PUBLIC_DIR, {
@@ -31,9 +33,23 @@ MongoClient.connect(process.env.MONGO_URL, (err, mPool) => {
   assert.equal(err, null);
   const mdb = mdbConstructor(mPool);
 
-  app.use('/graphql', bodyParser.json(), (req, res) => {
+  app.post('/login', async (req, res) => {
+    if (req.body.email) {
+      const user = await mdb.getUserByEmail(req.body.email);
+      if (user._id) {
+        return res.status(200).send({
+          data: {
+            userId: user._id
+          }
+        }).end();
+      }
+    }
+
+    return res.status(403).end();
+  });
+
+  app.use('/graphql', (req, res) => {
     const loaders = {
-      usersByEmails: new DataLoader(mdb.getUsersByEmails),
       districtsByIds: new DataLoader(mdb.getDistrictsByIds),
       districtsByCounties: new DataLoader(mdb.getDistrictsByCounties),
       reportsByDistrictIds: new DataLoader(mdb.getReportsByDistrictIds),

@@ -50,13 +50,43 @@ export default function mdbConstructor(mPool) {
         .then(r => r.ops);
     },
 
-    getUsersByEmails(emails) {
+    addPerson(input) {
+      return mPool.collection('persons')
+        .insertOne(input)
+        .then(r => r.ops);
+    },
+
+    addAssessment(input) {
+      return mPool.collection('assessments')
+        .insertOne(input)
+        .then(({ ops }) => {
+          const assessment = ops[0];
+          return this.addPerson({
+            age: assessment.generalDemographics.age,
+            assessmentIds: [assessment._id],
+            ethnicity: assessment.generalDemographics.ethnicity,
+            gender: assessment.generalDemographics.gender,
+            districtId: assessment.districtId,
+            firstName: assessment.generalDemographics.firstName,
+            lastName: assessment.generalDemographics.lastName,
+            ssn: assessment.generalDemographics.ssn
+          })
+          .then((result) => {
+            mPool.collection('assessments').updateOne({ _id: assessment._id }, {
+              $set: { personId: result[0]._id }
+            });
+            return [{
+              ...assessment,
+              personId: result[0]._id
+            }];
+          });
+        });
+    },
+
+    getUserByEmail(email) {
       return mPool.collection('users')
-        .find({ email: { $in: emails } })
-        .toArray()
-        .then(rows =>
-          orderedFor(rows, emails, 'email', true)
-        );
+        .findOne({ email })
+        .then(user => user);
     },
 
     getAllDistricts() {
@@ -81,7 +111,7 @@ export default function mdbConstructor(mPool) {
       return mPool.collection('districts')
         .find({ county: { $in: counties } })
         .toArray()
-        .then(rows => 
+        .then(rows =>
           orderedFor(rows, counties, 'county', false)
         );
     },
@@ -131,9 +161,9 @@ export default function mdbConstructor(mPool) {
         );
     },
 
-    getAllPersons(skip = 0, limit = 50) {
+    getAllPersons(skip = 0) {
       return mPool.collection('persons')
-        .find({}, { skip, limit })
+        .find({}, { skip })
         .toArray()
         .then(rows =>
           rows

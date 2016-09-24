@@ -37,7 +37,7 @@ const seeder = require('./random-seeder');
       const assessments = db.collection('assessments');
 
       const userInsert = yield users.insert({
-        email: 'testing.email@email.com',
+        email: "brock808@thisEmail.com",
         role: 'admin',
         permissions: ['create', 'delete']
       });
@@ -49,12 +49,12 @@ const seeder = require('./random-seeder');
       const reportInsert = yield reports.insertMany(seeder.generateReports(200));
       assert.equal(200, reportInsert.insertedCount);
 
-      const personInsert = yield persons.insertMany(seeder.generatePersons(300, reportInsert.insertedIds));
-      assert.equal(300, personInsert.insertedCount);
+      const personInsert = yield persons.insertMany(seeder.generatePersons(400, reportInsert.insertedIds));
+      assert.equal(400, personInsert.insertedCount);
 
-      const assessmentObjects = seeder.generateAssessments(170, personInsert.ops);
+      const assessmentObjects = seeder.generateAssessments(75, personInsert.ops);
       const assessmentInsert = yield assessments.insertMany(assessmentObjects);
-      assert.equal(170, assessmentInsert.insertedCount);
+      assert.equal(75, assessmentInsert.insertedCount);
 
       yield assessmentObjects.map(assessment => {
         const personUpdate = persons.updateOne({ _id: assessment.personId }, {
