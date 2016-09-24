@@ -13,6 +13,7 @@ const AssessmentGDInputType = new GraphQLInputObjectType({
   fields: {
     age: { type: GraphQLString },
     consentOfParticipation: { type: GraphQLString },
+    ethnicity: { type: GraphQLString },
     dateOfBirth: { type: GraphQLString },
     firstName: { type: GraphQLString },
     languages: { type: new GraphQLList(GraphQLString) },

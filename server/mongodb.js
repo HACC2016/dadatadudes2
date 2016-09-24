@@ -64,7 +64,8 @@ export default function mdbConstructor(mPool) {
           return this.addPerson({
             age: assessment.generalDemographics.age,
             assessmentIds: [assessment._id],
-            gender: 'Undisclosed',
+            ethnicity: assessment.generalDemographics.ethnicity,
+            gender: assessment.generalDemographics.gender,
             districtId: assessment.districtId,
             firstName: assessment.generalDemographics.firstName,
             lastName: assessment.generalDemographics.lastName,
