@@ -59,7 +59,27 @@ export default function mdbConstructor(mPool) {
     addAssessment(input) {
       return mPool.collection('assessments')
         .insertOne(input)
-        .then(r => r.ops);
+        .then(({ ops }) => {
+          const assessment = ops[0];
+          return this.addPerson({
+            age: assessment.generalDemographics.age,
+            assessmentIds: [assessment._id],
+            gender: 'Undisclosed',
+            districtId: assessment.districtId,
+            firstName: assessment.generalDemographics.firstName,
+            lastName: assessment.generalDemographics.lastName,
+            ssn: assessment.generalDemographics.ssn
+          })
+          .then((result) => {
+            mPool.collection('assessments').updateOne({ _id: assessment._id }, {
+              $set: { personId: result[0]._id }
+            });
+            return [{
+              ...assessment,
+              personId: result[0]._id
+            }];
+          });
+        });
     },
 
     getUserByEmail(email) {
